@@ -48,7 +48,7 @@ export default function LoginForm() {
       <button
         type="submit"
         disabled={pending}
-        className="rounded-lg disabled:bg-gray-600"
+        className="bg-primary text-primary-foreground hover:bg-primary/90 h-9 cursor-pointer rounded-lg px-4 py-2 shadow disabled:bg-gray-600"
       >
         {pending ? "Logging In..." : "Log In"}
       </button>
