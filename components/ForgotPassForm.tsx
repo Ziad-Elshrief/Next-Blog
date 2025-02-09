@@ -33,7 +33,7 @@ export default function ForgotPassForm() {
       <button
         disabled={pending}
         type="submit"
-        className="h-9 w-full cursor-pointer rounded-lg bg-cyan-900 px-4 py-2 text-white shadow hover:bg-sky-700 disabled:bg-gray-600"
+        className="flex h-9 w-full cursor-pointer items-center justify-center gap-x-1.5 rounded-lg bg-cyan-900 px-4 py-2 text-white shadow hover:bg-sky-700 disabled:bg-gray-600"
       >
         {pending && <Loader className="mr-2 h-4 w-4 animate-spin" />}
         Reset Password

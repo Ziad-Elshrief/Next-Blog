@@ -7,7 +7,6 @@ interface SidebarProps {
   children: ReactNode;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  inPlaceheightClass?: string;
 }
 
 const MEDIUM_SCREEN_WIDTH = 768;
