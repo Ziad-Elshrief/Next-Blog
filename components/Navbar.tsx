@@ -19,7 +19,7 @@ export default function Navbar() {
   const { user, isLoading } = useUserInfo();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
-    <nav className="bg-secondary py-3">
+    <nav className="bg-secondary p-3">
       <div className="container mx-auto flex items-center justify-between">
         <div className="">Next Blog</div>
         <ul className="hidden md:flex">

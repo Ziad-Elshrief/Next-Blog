@@ -103,7 +103,7 @@ export function SidebarButtonItem({
   return (
     <button
       onClick={onClick}
-      className="cursur-pointer hover:bg-secondary/90 flex w-full items-center space-x-3 rounded-md px-3 py-2 text-cyan-100 transition-colors"
+      className="cursor-pointer hover:bg-secondary/90 flex w-full items-center space-x-3 rounded-md px-3 py-2 text-cyan-100 transition-colors"
     >
       {icon}
       <span>{children}</span>

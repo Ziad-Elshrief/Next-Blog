@@ -2,6 +2,8 @@ import { auth, db, provider } from "@/utils/firebase";
 import {
   AuthError,
   createUserWithEmailAndPassword,
+  sendEmailVerification,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -11,7 +13,10 @@ import { z } from "zod";
 
 const registerSchema = z.object({
   firstName: z.string().max(60, "First Name must not exceed 60 charachters"),
-  lastName: z.string().max(60, "Last Name must not exceed 60 charachters"),
+  lastName: z
+    .string()
+    .max(60, "Last Name must not exceed 60 charachters")
+    .optional(),
   email: z.string().email("Invalid Email").trim(),
   password: z
     .string({ invalid_type_error: "Invalid password" })
@@ -65,10 +70,11 @@ export default async function createUserEmailPassword(
       uid: userCredential.user.uid,
       role: "user",
       joinedAt: userCredential.user.metadata.creationTime,
-      avatar: userCredential.user.photoURL
+      avatar: userCredential.user.photoURL,
     });
+    await sendEmailVerification(userCredential.user);
     return {
-      success: `Account created for ${userCredential?.user.email}`,
+      success: `An email was sent to ${userCredential?.user.email} to verify your account`,
     };
   } catch (error) {
     const err = error as AuthError;
@@ -138,14 +144,60 @@ export const loginUserGoogle = async () => {
         uid: user.uid,
         role: "user",
         joinedAt: user.metadata.creationTime,
-        avatar:user.photoURL
+        avatar: user.photoURL,
       });
+      await sendEmailVerification(user);
     } catch (error) {
       console.log(error);
       return {
         error: "Error signing in with google",
       };
     }
+  } catch (error) {
+    const err = error as AuthError;
+    return {
+      error: err.message,
+    };
+  }
+};
+
+export const forgotPassword = async (
+  _prevState: unknown,
+  formData: FormData
+) => {
+  const email = formData.get("email") as string;
+
+  const validatedEmail = z
+    .string()
+    .email("Invalid Email")
+    .trim()
+    .safeParse(email);
+
+  if (!validatedEmail.success) {
+    return {
+      errors: validatedEmail.error.message,
+    };
+  }
+
+  try {
+    await sendPasswordResetEmail(auth, email);
+    return {
+      success: "An email was sent with the instructions",
+    };
+  } catch (error) {
+    const err = error as AuthError;
+    return {
+      error: err.message,
+    };
+  }
+};
+
+export const sendEmailVerificationMail = async () => {
+  try {
+    if (auth.currentUser) await sendEmailVerification(auth.currentUser);
+    return {
+      success: "An email was sent to verify your email",
+    };
   } catch (error) {
     const err = error as AuthError;
     return {

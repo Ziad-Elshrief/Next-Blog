@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 export default function useUserInfo() {
   const [user, setUser] = useState<DocumentData | null>();
+  const [authInfo, setAuthInfo] = useState<DocumentData | null>();
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const getUserInfo = async (uid: string) => {
@@ -18,9 +19,10 @@ export default function useUserInfo() {
       } else {
         setUser(null);
       }
+      setAuthInfo(authUser);
       setIsLoading(false);
     });
     return () => unsubscribe();
   }, []);
-  return { isLoading, user };
+  return { isLoading, user, authInfo };
 }

@@ -1,8 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { loginUserEmailPassword } from "@/app/actions/user";
+import { loginUserEmailPassword, loginUserGoogle } from "@/app/actions/user";
 import { useActionState, useEffect } from "react";
+import { Loader } from "lucide-react";
+import Image from "next/image";
+import { Input } from "./Input";
+import Link from "next/link";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -14,44 +18,73 @@ export default function LoginForm() {
     if (state?.success) router.push("/");
   }, [router, state]);
   return (
-    <form action={formAction} className="space-y-4">
-      <div>
-        <label htmlFor="email" className="mb-1 block">
-          Email
-        </label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          placeholder="Enter your email..."
-          required
-        />
-        {state?.errors?.email && (
-          <p className="text-red-600">{state.errors.email}</p>
-        )}
-      </div>
-      <div>
-        <label htmlFor="password" className="mb-1 block">
-          Password
-        </label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Enter your password"
-          required
-        />
-        {state?.errors?.password && (
-          <p className="text-red-600">{state.errors.password}</p>
-        )}
-      </div>
+    <>
       <button
-        type="submit"
-        disabled={pending}
-        className="bg-primary text-primary-foreground hover:bg-primary/90 h-9 cursor-pointer rounded-lg px-4 py-2 shadow disabled:bg-gray-600"
+        onClick={loginUserGoogle}
+        className="flex h-9 w-full cursor-pointer items-center justify-center gap-x-2 rounded-lg border-gray-700 bg-gray-800 px-4 py-2 text-white hover:bg-gray-700"
       >
-        {pending ? "Logging In..." : "Log In"}
+        <Image priority src="/google.svg" height={16} width={16} alt="google" />
+        Sign in with Google
       </button>
-    </form>
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t border-gray-700" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-gray-900 px-2 text-gray-400">
+            or continue with
+          </span>
+        </div>
+      </div>
+      <form action={formAction} className="space-y-4">
+        <div>
+          <label htmlFor="email" className="mb-1 block">
+            Email
+          </label>
+          <Input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Enter your email..."
+            required
+          />
+          {state?.errors?.email && (
+            <p className="text-red-600">{state.errors.email}</p>
+          )}
+        </div>
+        <div>
+          <div className="mb-1 flex items-center justify-between">
+            <label htmlFor="password" className="block">
+              Password
+            </label>
+
+            <Link
+              href="/forgot-password"
+              className="text-sm font-bold hover:underline"
+            >
+              Forgot your password?
+            </Link>
+          </div>
+          <Input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Enter your password"
+            required
+          />
+          {state?.errors?.password && (
+            <p className="text-red-600">{state.errors.password}</p>
+          )}
+        </div>
+        <button
+          disabled={pending}
+          type="submit"
+          className="h-9 w-full cursor-pointer rounded-lg bg-cyan-900 px-4 py-2 text-white shadow hover:bg-sky-700 disabled:bg-gray-600"
+        >
+          {pending && <Loader className="mr-2 h-4 w-4 animate-spin" />}
+          Sign In
+        </button>
+      </form>
+    </>
   );
 }
