@@ -7,7 +7,7 @@ export const Input = React.forwardRef<
   return (
     <input
       type={type}
-      className="w-full rounded-lg border-gray-700 bg-gray-800 p-1.5 text-white placeholder-gray-400 caret-cyan-700"
+      className="w-full rounded-lg border-gray-700 bg-gray-800 p-1.5 text-white placeholder-gray-400 caret-primary-hover"
       ref={ref}
       {...props}
     />

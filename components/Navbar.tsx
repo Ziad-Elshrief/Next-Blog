@@ -2,7 +2,17 @@
 
 import { logout } from "@/app/actions/user";
 import useUserInfo from "@/hooks/useUserInfo";
-import { Home, LogOut, LogOutIcon, MenuIcon, X } from "lucide-react";
+import {
+  ChevronDown,
+  Home,
+  LogInIcon,
+  LogOut,
+  LogOutIcon,
+  MenuIcon,
+  UserCircle2Icon,
+  UserPlus2,
+  X,
+} from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import {
@@ -11,9 +21,11 @@ import {
   SidebarContent,
   SidebarHeader,
   SidebarLinkItem,
-  SidebarSection,
 } from "./Sidebar";
 import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
   Menu,
   MenuButton,
   MenuItem,
@@ -23,51 +35,42 @@ import {
 import UserAvatar from "./UserAvatar";
 
 export default function Navbar() {
-  const { user, isLoading } = useUserInfo();
+  const { user } = useUserInfo();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
     <nav className="bg-secondary p-3">
       <div className="container mx-auto flex items-center justify-between">
-        <div className="">Next Blog</div>
+        <Link href="/" className="text-lg font-bold sm:text-2xl">
+          Next Blog
+        </Link>
         <ul className="hidden md:flex">
           <li>
-            <Link href="/">Home</Link>
+            <Link href="/" className="hover:text-sky-200">
+              Home
+            </Link>
           </li>
         </ul>
         <div className="flex items-center justify-center space-x-3">
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="md:hidden"
+            className="cursor-pointer md:hidden"
           >
-            {isSidebarOpen ? <X /> : <MenuIcon />}
+            {isSidebarOpen ? (
+              <X className="size-8" />
+            ) : (
+              <MenuIcon className="size-8" />
+            )}
           </button>
-          {!isLoading && (
-            <>
-              {user ? (
-                <>
-                  <NavUserIcon />
-                </>
-              ) : (
-                <>
-                  <Link
-                    href="/register"
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 h-9 cursor-pointer rounded-lg px-4 py-2 shadow"
-                  >
-                    Sign Up
-                  </Link>
-                  <Link
-                    href="/login"
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 h-9 cursor-pointer rounded-lg px-4 py-2 shadow"
-                  >
-                    Sign In
-                  </Link>
-                </>
-              )}
-            </>
-          )}
+          {user ? <NavUserIcon /> : <NavNoUserIcon />}
         </div>
       </div>
       <Sidebar setIsOpen={setIsSidebarOpen} isOpen={isSidebarOpen}>
+        <button
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="absolute top-3 right-3 cursor-pointer"
+        >
+          <X />
+        </button>
         <NavSidebar />
       </Sidebar>
     </nav>
@@ -80,19 +83,19 @@ function NavUserIcon() {
     <>
       {user && (
         <Menu as="div">
-          <MenuButton>
-            <UserAvatar />
+          <MenuButton className=" cursor-pointer">
+            <UserAvatar fontSize="text-sm" />
           </MenuButton>
           <MenuItems
             transition
-            anchor="bottom"
+            anchor="bottom end"
             className="text-foreground mt-4 mr-4 min-w-[8rem] origin-top overflow-hidden rounded-md border bg-gray-700 p-1 shadow-md transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
           >
             <MenuItem as="div" className="p-1.5">
               <h2 className="text-base font-semibold">
                 {user.firstName} {user.lastName}
               </h2>
-              <p className="text-xs text-cyan-200">{user.email}</p>
+              <p className="text-xs text-gray-300">{user.email}</p>
             </MenuItem>
             <MenuSeparator className="bg-foreground my-1 h-px" />
             <MenuItem>
@@ -110,6 +113,40 @@ function NavUserIcon() {
   );
 }
 
+function NavNoUserIcon() {
+  return (
+    <>
+      <Menu as="div">
+        <MenuButton className="mt-[3.5px] cursor-pointer">
+          <UserCircle2Icon className="size-8" />
+        </MenuButton>
+        <MenuItems
+          transition
+          anchor="bottom end"
+          className="text-foreground mt-4 mr-4 min-w-[8rem] origin-top overflow-hidden rounded-md border bg-gray-700 p-1 shadow-md transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
+        >
+          <MenuItem>
+            <Link
+              href="/login"
+              className="flex w-full cursor-pointer items-center justify-between p-1.5"
+            >
+              Sign In <LogInIcon className="size-4" />
+            </Link>
+          </MenuItem>
+          <MenuItem>
+            <Link
+              href="/register"
+              className="flex w-full cursor-pointer items-center justify-between p-1.5"
+            >
+              Sign Up <UserPlus2 className="size-4" />
+            </Link>
+          </MenuItem>
+        </MenuItems>
+      </Menu>
+    </>
+  );
+}
+
 function NavSidebar() {
   const { user, isLoading } = useUserInfo();
   return (
@@ -117,46 +154,86 @@ function NavSidebar() {
       {!isLoading && (
         <SidebarHeader>
           {user ? (
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 pt-2">
               <UserAvatar sizeClass="size-10" />
               <div>
                 <h2 className="text-lg font-semibold">{user.firstName}</h2>
-                <p className="text-sm text-cyan-200">{user.email}</p>
+                <p className="text-sm text-gray-300">{user.email}</p>
               </div>
             </div>
           ) : (
-            <div className="flex items-center justify-center space-x-3">
-              <Link
-                href="/register"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 h-9 cursor-pointer rounded-lg px-4 py-2 shadow"
-              >
-                Sign Up
-              </Link>
-              <Link
-                href="/login"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 h-9 cursor-pointer rounded-lg px-4 py-2 shadow"
-              >
-                Sign In
-              </Link>
+            <div className="pt-2">
+              <div className="flex items-center space-x-3">
+                <UserCircle2Icon className="size-10 rounded-full text-gray-400" />
+                <div>
+                  <h2 className="text-base font-medium text-gray-300">
+                    Sign in or Sign up
+                  </h2>
+                </div>
+              </div>
+              <div className="mt-3 space-y-1">
+                <SidebarLinkItem
+                  href="/login"
+                  icon={<LogInIcon className="size-5" />}
+                >
+                  Sign In
+                </SidebarLinkItem>
+                <SidebarLinkItem
+                  href="/register"
+                  icon={<UserPlus2 className="size-5" />}
+                >
+                  Sign Up
+                </SidebarLinkItem>
+              </div>
             </div>
           )}
         </SidebarHeader>
       )}
       <SidebarContent>
-        <SidebarSection title="Navigation">
-          <SidebarLinkItem href="/" icon={<Home className="size-5" />}>
-            Home
-          </SidebarLinkItem>
-        </SidebarSection>
+        <Disclosure as="div">
+          {({ open }) => (
+            <>
+              <DisclosureButton className="flex w-full cursor-pointer items-center justify-between py-2">
+                Navigation
+                <ChevronDown
+                  className={`size-6 transition-transform duration-500 ease-in-out ${open ? "rotate-180" : ""}`}
+                />
+              </DisclosureButton>
+              <DisclosurePanel
+                transition
+                className="mb-4 origin-top transition duration-500 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0"
+              >
+                <SidebarLinkItem href="/" icon={<Home className="size-5" />}>
+                  Home
+                </SidebarLinkItem>
+              </DisclosurePanel>
+            </>
+          )}
+        </Disclosure>
         {user && (
-          <SidebarSection title="Account">
-            <SidebarButtonItem
-              onClick={logout}
-              icon={<LogOut className="size-5" />}
-            >
-              Logout
-            </SidebarButtonItem>
-          </SidebarSection>
+          <Disclosure as="div">
+            {({ open }) => (
+              <>
+                <DisclosureButton className="flex w-full cursor-pointer items-center justify-between py-2">
+                  Account
+                  <ChevronDown
+                    className={`size-6 transition-transform duration-500 ease-in-out ${open ? "rotate-180" : ""}`}
+                  />
+                </DisclosureButton>
+                <DisclosurePanel
+                  transition
+                  className="mb-4 origin-top transition duration-500 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0"
+                >
+                  <SidebarButtonItem
+                    onClick={logout}
+                    icon={<LogOut className="size-5" />}
+                  >
+                    Logout
+                  </SidebarButtonItem>
+                </DisclosurePanel>
+              </>
+            )}
+          </Disclosure>
         )}
       </SidebarContent>
     </>

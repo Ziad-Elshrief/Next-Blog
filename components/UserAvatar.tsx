@@ -3,8 +3,10 @@ import Image from "next/image";
 
 export default function UserAvatar({
   sizeClass = "size-8",
+  fontSize = "text-xl",
 }: {
   sizeClass?: string;
+  fontSize?: string;
 }) {
   const { user } = useUserInfo();
   if (!user) return null;
@@ -12,8 +14,8 @@ export default function UserAvatar({
     <>
       {user.avatar ? (
         <Image
-        priority
-          className={`${sizeClass} rounded-full border-2 border-cyan-300`}
+          priority
+          className={`${sizeClass} border-primary-hover rounded-full border-2`}
           src={user.avatar}
           alt={user.firstName}
           width={32}
@@ -21,7 +23,7 @@ export default function UserAvatar({
         />
       ) : (
         <div
-          className={`${sizeClass} flex items-center justify-center rounded-full border-2 border-cyan-300 bg-cyan-600/70 text-xl text-white select-none`}
+          className={`${sizeClass} border-primary-hover flex items-center justify-center rounded-full border-2 bg-gray-400 ${fontSize} text-primary-hover select-none`}
         >
           {user.firstName.slice(0, 2).toUpperCase()}
         </div>

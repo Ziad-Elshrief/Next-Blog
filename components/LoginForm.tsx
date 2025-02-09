@@ -62,7 +62,7 @@ export default function LoginForm() {
               href="/forgot-password"
               className="text-sm font-bold hover:underline"
             >
-              Forgot your password?
+              Forgot password?
             </Link>
           </div>
           <Input
@@ -79,7 +79,7 @@ export default function LoginForm() {
         <button
           disabled={pending}
           type="submit"
-          className="flex h-9 w-full cursor-pointer items-center justify-center gap-x-1.5 rounded-lg bg-cyan-900 px-4 py-2 text-white shadow hover:bg-sky-700 disabled:bg-gray-600"
+          className="flex h-9 w-full cursor-pointer items-center justify-center gap-x-1.5 rounded-lg bg-primary px-4 py-2 text-white shadow hover:bg-primary-hover disabled:bg-gray-600"
         >
           {pending && <Loader className="mr-2 h-4 w-4 animate-spin" />}
           Sign In

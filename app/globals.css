@@ -1,11 +1,25 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-background: var(--background);
+  --color-background-900: var(--background-900);
+  --color-background-800: var(--background-800);
+  --color-background-700: var(--background-700);
+  --color-background-600: var(--background-600);
+  --color-background-500: var(--background-500);
+  --color-background-400: var(--background-400);
+  --color-background-300: var(--background-300);
+  --color-background-200: var(--background-200);
+  --color-background-100: var(--background-100);
   --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary)
+    /* tailwind sky-800 */
+  ;
+  --color-primary-hover: var(--primary-hover)
+    /* tailwind primary-hover */
+  ;
   --color-secondary: var(--secondary)
+    /* tailwind sky-950 */
+  ;
 }
 
 /*
@@ -28,22 +42,31 @@
 }
 
 :root {
-  --background: #ffffff;
+  --background-900: #ffffff;
+  --background-600: #dee4e7;
   --foreground: #171717;
   --primary: oklch(0.443 0.11 240.79);
-  --primary-foreground: oklch(0.901 0.058 230.902);
-  --secondary: oklch(0.398 0.07 227.392);
+  --primary-hover: oklch(0.5 0.134 242.749);
+  --secondary: oklch(0.293 0.066 243.157)
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background-900: #1e1e1e;
+    --background-800: #232323;
+    --background-700: #252525;
+    --background-600: #272727;
+    --background-500: #2C2C2C;
+    --background-400: #2E2E2E;
+    --background-300: #333333;
+    --background-200: #363636;
+    --background-100: #383838;
     --foreground: #ededed;
   }
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: var(--background-900);
   font-family: Arial, Helvetica, sans-serif;
 }

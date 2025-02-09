@@ -77,9 +77,7 @@ export function SidebarLinkItem({
     <Link
       href={href}
       className={`flex items-center space-x-3 rounded-md px-3 py-2 transition-colors ${
-        isActive
-          ? "bg-secondary text-white"
-          : "hover:bg-secondary/90 text-cyan-100"
+        isActive ? "bg-primary text-white" : "hover:bg-primary text-white"
       }`}
     >
       {icon}
@@ -102,7 +100,7 @@ export function SidebarButtonItem({
   return (
     <button
       onClick={onClick}
-      className="cursor-pointer hover:bg-secondary/90 flex w-full items-center space-x-3 rounded-md px-3 py-2 text-cyan-100 transition-colors"
+      className="hover:bg-primary flex w-full cursor-pointer items-center space-x-3 rounded-md px-3 py-2 text-white transition-colors"
     >
       {icon}
       <span>{children}</span>
@@ -118,7 +116,7 @@ interface SidebarSectionProps {
 export function SidebarSection({ title, children }: SidebarSectionProps) {
   return (
     <div className="mb-6">
-      <h3 className="mb-2 px-3 text-sm font-semibold tracking-wider text-cyan-200 uppercase">
+      <h3 className="mb-2 text-sm font-semibold tracking-wider text-white uppercase">
         {title}
       </h3>
       <div className="space-y-1">{children}</div>

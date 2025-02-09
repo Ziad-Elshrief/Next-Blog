@@ -2,9 +2,18 @@
 
 import { sendEmailVerificationMail } from "@/app/actions/user";
 import useUserInfo from "@/hooks/useUserInfo";
+import {
+  Description,
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
 import { AlertCircle } from "lucide-react";
+import { useState } from "react";
 
 export default function VerifyAccountHeader() {
+  const [isOpen, setIsOpen] = useState(false);
   const { authInfo } = useUserInfo();
   if (!authInfo || authInfo.emailVerified) {
     return null;
@@ -13,17 +22,56 @@ export default function VerifyAccountHeader() {
     await sendEmailVerificationMail();
   };
   return (
-    <header className="flex items-center justify-center gap-x-3 border-yellow-700 bg-yellow-900 p-2 sm:gap-x-4">
-      <h2 className="flex items-center gap-x-1 text-xs sm:text-base">
-        <AlertCircle className="h-4 w-4 shrink-0" />
-        Please verify your email address.
-      </h2>
+    <header className="flex items-center justify-center gap-x-1 border-yellow-700 bg-yellow-900 p-2 text-xs sm:text-base">
+      <AlertCircle className="h-4 w-4 shrink-0" />
+      Please verify your email address.
       <button
-        onClick={verifyHandler}
-        className="cursor-pointer rounded-xl border-yellow-600 bg-yellow-800 px-1.5 py-1 text-xs text-white hover:bg-yellow-700 sm:text-sm"
+        className="cursor-pointer underline"
+        onClick={() => setIsOpen(true)}
       >
-        Verify Email
+        {"Didn't receive an email?"}
       </button>
+      <Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="relative z-50"
+      >
+        <DialogBackdrop
+          transition
+          className="fixed inset-0 bg-black/60 duration-300 ease-out data-[closed]:opacity-0"
+        />
+        <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+          <DialogPanel
+            transition
+            className="max-w-lg space-y-4 rounded-xl bg-gray-900 p-12 shadow-2xl duration-300 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
+          >
+            <DialogTitle className="text-center text-xl font-bold text-primary-hover">
+              Send verification email
+            </DialogTitle>
+            <Description className="text-sm text-gray-400">
+              This will send another email to the email address linked to your
+              account to verify your account.
+            </Description>
+            <div className="flex justify-center gap-4">
+              <button
+                className="flex h-9 cursor-pointer items-center justify-center gap-x-1.5 rounded-lg bg-red-700 px-4 py-2 text-white shadow hover:bg-red-600 disabled:bg-gray-600"
+                onClick={() => setIsOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="flex h-9 cursor-pointer items-center justify-center gap-x-1.5 rounded-lg bg-primary px-4 py-2 text-white shadow hover:bg-primary-hover disabled:bg-gray-600"
+                onClick={() => {
+                  verifyHandler();
+                  setIsOpen(false);
+                }}
+              >
+                Send
+              </button>
+            </div>
+          </DialogPanel>
+        </div>
+      </Dialog>
     </header>
   );
 }
