@@ -3,6 +3,7 @@
 import { logout } from "@/app/actions/user";
 import useUserInfo from "@/hooks/useUserInfo";
 import {
+  BookOpenText,
   ChevronDown,
   Home,
   LogInIcon,
@@ -43,7 +44,7 @@ export default function Navbar() {
         <Link href="/" className="text-lg font-bold sm:text-2xl">
           Next Blog
         </Link>
-        <ul className="hidden md:flex gap-x-3">
+        <ul className="hidden gap-x-3 md:flex">
           <li>
             <Link href="/" className="hover:text-sky-200">
               Home
@@ -212,6 +213,12 @@ function NavSidebar() {
               >
                 <SidebarLinkItem href="/" icon={<Home className="size-5" />}>
                   Home
+                </SidebarLinkItem>
+                <SidebarLinkItem
+                  href="/blog"
+                  icon={<BookOpenText className="size-5" />}
+                >
+                  Blog
                 </SidebarLinkItem>
               </DisclosurePanel>
             </>
