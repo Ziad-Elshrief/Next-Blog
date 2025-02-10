@@ -201,7 +201,7 @@ function NavSidebar() {
         <Disclosure as="div">
           {({ open }) => (
             <>
-              <DisclosureButton className="flex w-full cursor-pointer items-center justify-between py-2">
+              <DisclosureButton className="mb-2 flex w-full cursor-pointer items-center justify-between py-2">
                 Navigation
                 <ChevronDown
                   className={`size-6 transition-transform duration-500 ease-in-out ${open ? "rotate-180" : ""}`}
@@ -209,7 +209,7 @@ function NavSidebar() {
               </DisclosureButton>
               <DisclosurePanel
                 transition
-                className="mb-4 origin-top transition duration-500 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0"
+                className="mb-4 origin-top space-y-1.5 transition duration-500 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0"
               >
                 <SidebarLinkItem href="/" icon={<Home className="size-5" />}>
                   Home
@@ -228,7 +228,7 @@ function NavSidebar() {
           <Disclosure as="div">
             {({ open }) => (
               <>
-                <DisclosureButton className="flex w-full cursor-pointer items-center justify-between py-2">
+                <DisclosureButton className="mb-2 flex w-full cursor-pointer items-center justify-between py-2">
                   Account
                   <ChevronDown
                     className={`size-6 transition-transform duration-500 ease-in-out ${open ? "rotate-180" : ""}`}
@@ -236,7 +236,7 @@ function NavSidebar() {
                 </DisclosureButton>
                 <DisclosurePanel
                   transition
-                  className="mb-4 origin-top transition duration-500 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0"
+                  className="mb-4 origin-top space-y-1.5 transition duration-500 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0"
                 >
                   <SidebarButtonItem
                     onClick={logout}

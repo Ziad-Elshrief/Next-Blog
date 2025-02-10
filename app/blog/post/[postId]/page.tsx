@@ -1,24 +1,11 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Ban } from "lucide-react";
 import Link from "next/link";
-
-// This would typically come from a database or API
-const posts = [
-  {
-    postId: "14",
-    title: "The Future of Web Development",
-    content: "Web development is constantly evolving...",
-    author: {
-      name: "Jane Doe",
-      avatar: "/placeholder.svg?height=80&width=80",
-      bio: "Senior Web Developer with 10 years of experience",
-    },
-    date: "2023-06-01",
-  },
-  // Add more posts as needed
-];
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/utils/firebase";
+import parse from "html-react-parser";
 
 export async function generateMetadata({
   params,
@@ -26,17 +13,23 @@ export async function generateMetadata({
   params: Promise<{ postId: string }>;
 }): Promise<Metadata> {
   const { postId } = await params;
-  const post = posts.find((post) => post.postId === postId);
+  try {
+    const post = (await getDoc(doc(db, "posts", postId))).data();
+    if (!post) {
+      return {
+        title: "Post Not Found",
+      };
+    }
 
-  if (!post) {
     return {
-      title: "Post Not Found",
+      title: post.title,
+      description: `${post.content.substring(0, 160)}...`,
     };
+  } catch (error) {
+    console.log(error);
   }
-
   return {
-    title: post.title,
-    description: `${post.content.substring(0, 160)}...`,
+    title: "Post Not Found",
   };
 }
 
@@ -46,8 +39,14 @@ export default async function BlogPost({
   params: Promise<{ postId: string }>;
 }) {
   const { postId } = await params;
-  const post = posts.find((post) => post.postId === postId);
-
+  let post;
+  let author;
+  try {
+    post = (await getDoc(doc(db, "posts", postId))).data();
+    if (post) author = (await getDoc(doc(db, "users", post.author))).data();
+  } catch (error) {
+    console.log(error);
+  }
   if (!post) {
     notFound();
   }
@@ -65,19 +64,35 @@ export default async function BlogPost({
         {post.title}
       </h1>
       <div className="mb-6 flex items-center">
-        <Image
-          src={post.author.avatar || "/placeholder.svg"}
-          alt={post.author.name}
-          width={40}
-          height={40}
-          className="mr-4 rounded-full"
-        />
+        {author?.avatar ? (
+          <Image
+            src={author.avatar || "/placeholder.svg"}
+            alt={author.firstName}
+            width={40}
+            height={40}
+            className="mr-4 rounded-full"
+          />
+        ) : (
+          <div className="border-primary-hover text-primary-hover mr-4 flex size-10 items-center justify-center rounded-full border-2 bg-gray-400 text-xl select-none">
+            {author ? (
+              <>{author.firstName.slice(0, 2).toUpperCase()}</>
+            ) : (
+              <Ban className="suze-10" />
+            )}
+          </div>
+        )}
         <div>
           <p className="text-lg font-semibold text-sky-900 dark:text-sky-600">
-            {post.author.name}
+            {author ? (
+              <>
+                {author.firstName} {author.lastName}
+              </>
+            ) : (
+              "Deleted Account"
+            )}
           </p>
           <p className="text-sm text-gray-500">
-            {new Date(post.date).toLocaleDateString("en-US", {
+            {new Date(post.createdAt).toLocaleDateString("en-US", {
               weekday: "long",
               year: "numeric",
               month: "long",
@@ -86,9 +101,7 @@ export default async function BlogPost({
           </p>
         </div>
       </div>
-      <div className="prose max-w-none">
-        <p>{post.content}</p>
-      </div>
+      <div className="tiptap">{parse(post.content)}</div>
     </article>
   );
 }

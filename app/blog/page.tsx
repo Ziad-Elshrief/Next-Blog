@@ -6,25 +6,19 @@ import Link from "next/link";
 export default function BlogPage() {
   const posts = [
     {
-      postId: "14",
+      author: { name: "Ziad Ragab" },
+      content:
+        "<h2><strong>The Future of Web Development</strong></h2><p>Explore the cutting-edge technologies shaping the future of web development...</p>",
+      createdAt: "2025-02-10T23:22:39.101Z",
+      postId: "342e51f4-4c55-408c-85b4-2577dd7f9581",
       title: "The Future of Web Development",
-      excerpt: "Web development is constantly evolving...",
-      author: {
-        name: "Jane Doe",
-      },
-      date: "2023-06-01",
+      updatedAt: "2025-02-10T23:22:39.101Z",
     },
-    {
-      postId: "15",
-      title: "The Future of Web Development",
-      excerpt: "Web development is constantly evolving...",
-      author: {
-        name: "Jane Doe",
-      },
-      date: "2023-06-01",
-    },
-    // Add more posts as needed
   ];
+  const extractFirstParagraph = (htmlString:string) => {
+    const match = htmlString.match(/<p>(.*?)<\/p>/);
+    return match ? match[1] : null;
+  };
   return (
     <>
       <PinnedPost />
@@ -53,13 +47,13 @@ export default function BlogPage() {
                   {post.title}
                 </h2>
                 <p className="mb-4 line-clamp-2 text-gray-600 dark:text-gray-300">
-                  {post.excerpt}
+                  {extractFirstParagraph(post.content)}
                 </p>
                 <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
                   <span>{post.author.name}</span>
                   <span className="mx-2">·</span>
                   <span>
-                    {new Date(post.date).toLocaleDateString("en-US", {
+                    {new Date(post.createdAt).toLocaleDateString("en-US", {
                       weekday: "long",
                       year: "numeric",
                       month: "long",
