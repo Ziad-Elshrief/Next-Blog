@@ -27,7 +27,7 @@ export function Sidebar({ children, isOpen, setIsOpen }: SidebarProps) {
         className={`fixed inset-y-0 left-0 z-40 transform transition duration-200 ease-in-out md:hidden md:translate-x-0 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div
-          className={`flex h-dvh w-64 flex-col overflow-y-auto bg-slate-800 text-white`}
+          className={`bg-background-700 flex h-dvh w-64 flex-col overflow-y-auto`}
         >
           {children}
         </div>
@@ -48,7 +48,7 @@ interface SidebarHeaderProps {
 }
 
 export function SidebarHeader({ children }: SidebarHeaderProps) {
-  return <div className="bg-secondary p-4">{children}</div>;
+  return <div className="bg-secondary p-4 text-white">{children}</div>;
 }
 
 interface SidebarContentProps {
@@ -77,7 +77,7 @@ export function SidebarLinkItem({
     <Link
       href={href}
       className={`flex items-center space-x-3 rounded-md px-3 py-2 transition-colors ${
-        isActive ? "bg-primary text-white" : "hover:bg-primary text-white"
+        isActive ? "bg-primary text-white" : "hover:bg-primary hover:text-white"
       }`}
     >
       {icon}
@@ -100,7 +100,7 @@ export function SidebarButtonItem({
   return (
     <button
       onClick={onClick}
-      className="hover:bg-primary flex w-full cursor-pointer items-center space-x-3 rounded-md px-3 py-2 text-white transition-colors"
+      className="hover:bg-primary flex w-full cursor-pointer items-center space-x-3 rounded-md px-3 py-2 transition-colors hover:text-white"
     >
       {icon}
       <span>{children}</span>
@@ -116,7 +116,7 @@ interface SidebarSectionProps {
 export function SidebarSection({ title, children }: SidebarSectionProps) {
   return (
     <div className="mb-6">
-      <h3 className="mb-2 text-sm font-semibold tracking-wider text-white uppercase">
+      <h3 className="mb-2 text-sm font-semibold tracking-wider uppercase">
         {title}
       </h3>
       <div className="space-y-1">{children}</div>

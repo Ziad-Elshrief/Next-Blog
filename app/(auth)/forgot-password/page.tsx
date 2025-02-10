@@ -10,12 +10,12 @@ export const metadata: Metadata = {
 export default function ForgotPasswordPage() {
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <div className="mx-3 w-full max-w-md space-y-6 rounded-xl bg-gray-900 p-6 shadow-2xl">
+      <div className="mx-3 w-full max-w-md space-y-6 rounded-xl bg-background-300 dark:bg-gray-900 p-6 shadow-2xl">
         <div className="text-center">
           <h2 className="text-primary-hover mt-6 text-3xl font-bold">
             Next Blog
           </h2>
-          <p className="mt-2 text-sm text-balance text-gray-400">
+          <p className="mt-2 text-sm text-balance text-gray-700 dark:text-gray-400">
             Enter your email and we will send you an email to reset your
             password
           </p>

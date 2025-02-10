@@ -39,14 +39,19 @@ export default function Navbar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
     <nav className="bg-secondary p-3">
-      <div className="container mx-auto flex items-center justify-between">
+      <div className="container mx-auto flex items-center justify-between text-white">
         <Link href="/" className="text-lg font-bold sm:text-2xl">
           Next Blog
         </Link>
-        <ul className="hidden md:flex">
+        <ul className="hidden md:flex gap-x-3">
           <li>
             <Link href="/" className="hover:text-sky-200">
               Home
+            </Link>
+          </li>
+          <li>
+            <Link href="/blog" className="hover:text-sky-200">
+              Blog
             </Link>
           </li>
         </ul>
@@ -67,7 +72,7 @@ export default function Navbar() {
       <Sidebar setIsOpen={setIsSidebarOpen} isOpen={isSidebarOpen}>
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="absolute top-3 right-3 cursor-pointer"
+          className="absolute top-3 right-3 cursor-pointer text-white"
         >
           <X />
         </button>
@@ -83,25 +88,27 @@ function NavUserIcon() {
     <>
       {user && (
         <Menu as="div">
-          <MenuButton className=" cursor-pointer">
+          <MenuButton className="cursor-pointer">
             <UserAvatar fontSize="text-sm" />
           </MenuButton>
           <MenuItems
             transition
             anchor="bottom end"
-            className="text-foreground mt-4 mr-4 min-w-[8rem] origin-top overflow-hidden rounded-md border bg-gray-700 p-1 shadow-md transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
+            className="bg-background-700 text-foreground mt-4 min-w-40 origin-top overflow-hidden rounded-md border p-2 shadow-md transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
           >
             <MenuItem as="div" className="p-1.5">
               <h2 className="text-base font-semibold">
                 {user.firstName} {user.lastName}
               </h2>
-              <p className="text-xs text-gray-300">{user.email}</p>
+              <p className="text-xs text-gray-700 dark:text-gray-300">
+                {user.email}
+              </p>
             </MenuItem>
-            <MenuSeparator className="bg-foreground my-1 h-px" />
+            <MenuSeparator className="bg-foreground/70 my-1 h-px" />
             <MenuItem>
               <button
                 onClick={logout}
-                className="flex w-full cursor-pointer items-center justify-between p-1.5"
+                className="hover:bg-background-500 flex w-full cursor-pointer items-center justify-between rounded-md p-1.5"
               >
                 Sign Out <LogOutIcon className="size-4" />
               </button>
@@ -123,12 +130,12 @@ function NavNoUserIcon() {
         <MenuItems
           transition
           anchor="bottom end"
-          className="text-foreground mt-4 mr-4 min-w-[8rem] origin-top overflow-hidden rounded-md border bg-gray-700 p-1 shadow-md transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
+          className="bg-background-700 text-foreground mt-4 min-w-40 origin-top overflow-hidden rounded-md border p-2 shadow-md transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
         >
           <MenuItem>
             <Link
               href="/login"
-              className="flex w-full cursor-pointer items-center justify-between p-1.5"
+              className="hover:bg-background-500 flex w-full cursor-pointer items-center justify-between rounded-md p-1.5"
             >
               Sign In <LogInIcon className="size-4" />
             </Link>
@@ -136,7 +143,7 @@ function NavNoUserIcon() {
           <MenuItem>
             <Link
               href="/register"
-              className="flex w-full cursor-pointer items-center justify-between p-1.5"
+              className="hover:bg-background-500 flex w-full cursor-pointer items-center justify-between rounded-md p-1.5"
             >
               Sign Up <UserPlus2 className="size-4" />
             </Link>
