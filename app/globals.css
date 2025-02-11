@@ -114,3 +114,21 @@ body {
   max-width: 100%;
   border-radius: 8px;
 }
+
+.tiptap pre {
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  background-color: #2d2d2d;
+  color: #f8f8f2; 
+  border-radius: 8px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.tiptap code {
+  font-family: "Courier New", Courier, monospace;
+  color: #f8f8f2;
+}

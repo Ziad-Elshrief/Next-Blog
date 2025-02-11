@@ -3,13 +3,16 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import {
+  Bold,
+  Italic,
+  Code,
+  List,
+  ListOrdered,
   Eye,
   Heading1,
   Heading2,
   Heading3,
   Heading4,
-  List,
-  ListOrdered,
   Loader,
 } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -28,10 +31,10 @@ const TiptapEditor = ({
   saveButtonLabel,
 }: TiptapEditorProps) => {
   const [isLoading, setIsLoading] = useState(false);
+
   const editor = useEditor({
     extensions: [StarterKit],
     content: initialContent || "<p>Start writing...</p>",
-    immediatelyRender: false,
     editorProps: {
       attributes: {
         class:
@@ -47,6 +50,7 @@ const TiptapEditor = ({
     onSave(editor.getHTML());
     setIsLoading(false);
   };
+
   const handlePreview = () => {
     onPreview(editor.getHTML());
   };
@@ -54,38 +58,37 @@ const TiptapEditor = ({
   return (
     <div className="border-foreground/30 bg-background-600 rounded-lg border p-4">
       <div className="mb-2 flex flex-wrap space-x-2 text-black">
+        {/* Headings */}
+        {([1, 2, 3, 4] as const).map((level) => (
+          <button
+            key={level}
+            onClick={() =>
+              editor.chain().focus().toggleHeading({ level }).run()
+            }
+            className={`cursor-pointer rounded-lg p-2 ${editor.isActive("heading", { level }) ? "bg-sky-700 text-white" : "bg-gray-300"}`}
+          >
+            {level === 1 && <Heading1 className="size-5" />}
+            {level === 2 && <Heading2 className="size-5" />}
+            {level === 3 && <Heading3 className="size-5" />}
+            {level === 4 && <Heading4 className="size-5" />}
+          </button>
+        ))}
+
+        {/* Text Formatting */}
         <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 1 }).run()
-          }
-          className={`cursor-pointer rounded-lg p-2 ${editor.isActive("heading", { level: 1 }) ? "bg-sky-700 text-white" : "bg-gray-300"}`}
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          className={`cursor-pointer rounded-lg p-2 ${editor.isActive("bold") ? "bg-sky-700 text-white" : "bg-gray-300"}`}
         >
-          <Heading1 className="size-5" />
+          <Bold className="size-5" />
         </button>
         <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 2 }).run()
-          }
-          className={`cursor-pointer rounded-lg p-2 ${editor.isActive("heading", { level: 2 }) ? "bg-sky-700 text-white" : "bg-gray-300"}`}
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          className={`cursor-pointer rounded-lg p-2 ${editor.isActive("italic") ? "bg-sky-700 text-white" : "bg-gray-300"}`}
         >
-          <Heading2 className="size-5" />
+          <Italic className="size-5" />
         </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 3 }).run()
-          }
-          className={`cursor-pointer rounded-lg p-2 ${editor.isActive("heading", { level: 3 }) ? "bg-sky-700 text-white" : "bg-gray-300"}`}
-        >
-          <Heading3 className="size-5" />
-        </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 4 }).run()
-          }
-          className={`cursor-pointer rounded-lg p-2 ${editor.isActive("heading", { level: 4 }) ? "bg-sky-700 text-white" : "bg-gray-300"}`}
-        >
-          <Heading4 className="size-5" />
-        </button>
+
+        {/* Lists */}
         <button
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={`cursor-pointer rounded-lg p-2 ${editor.isActive("bulletList") ? "bg-sky-700 text-white" : "bg-gray-300"}`}
@@ -98,6 +101,15 @@ const TiptapEditor = ({
         >
           <ListOrdered className="size-5" />
         </button>
+
+        {/* Code Block */}
+        <button
+          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+          className={`cursor-pointer rounded-lg p-2 ${editor.isActive("codeBlock") ? "bg-sky-700 text-white" : "bg-gray-300"}`}
+        >
+          <Code className="size-5" />
+        </button>
+
         <button
           onClick={handlePreview}
           className="cursor-pointer rounded-lg bg-sky-900 p-2 text-white"
@@ -109,6 +121,7 @@ const TiptapEditor = ({
       <div className="max-h-[350px] min-h-[200px] overflow-auto">
         <EditorContent editor={editor} className="tiptap" />
       </div>
+
       <button
         disabled={isLoading}
         onClick={handleSave}

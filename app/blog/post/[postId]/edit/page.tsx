@@ -61,8 +61,10 @@ export default function EditPostPage({
   
   return (
     <main className="bg-background-700 py-16 min-h-screen">
-      {isLoading ? (
+      {isLoading ? (<>
+      <span className="sr-only"></span>
         <Loader2 className="text-primary mx-auto mt-20 size-40 animate-spin" />
+      </>
       ) : (
         <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
           <Link
