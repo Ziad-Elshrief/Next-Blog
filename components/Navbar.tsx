@@ -39,8 +39,8 @@ export default function Navbar() {
   const { user } = useUserInfo();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
-    <nav className="bg-secondary p-3">
-      <div className="container mx-auto flex items-center justify-between text-white">
+    <nav className="bg-secondary py-3">
+      <div className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 text-white sm:px-6 lg:px-8">
         <Link href="/" className="text-lg font-bold sm:text-2xl">
           Next Blog
         </Link>

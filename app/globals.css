@@ -42,14 +42,14 @@
 }
 
 :root {
-  --background-900: #ffffff; 
-  --background-800: #f9fafb; 
-  --background-700: #f3f4f6; 
-  --background-600: #e5e7eb; 
-  --background-500: #dfe1e5; 
-  --background-400: #d2d6db; 
+  --background-900: #ffffff;
+  --background-800: #f9fafb;
+  --background-700: #f3f4f6;
+  --background-600: #e5e7eb;
+  --background-500: #dfe1e5;
+  --background-400: #d2d6db;
   --background-300: #c7cdd4;
-  --background-200: #bcc2ca; 
+  --background-200: #bcc2ca;
   --background-100: #b3b9c2;
   --foreground: #171717;
   --primary: oklch(0.443 0.11 240.79);
@@ -82,19 +82,21 @@ body {
 
 .tiptap h1 {
   font-size: 2rem;
-  font-weight: bold;
   margin-bottom: 0.5rem;
 }
 
 .tiptap h2 {
   font-size: 1.75rem;
-  font-weight: bold;
   margin-bottom: 0.5rem;
 }
 
 .tiptap h3 {
   font-size: 1.5rem;
-  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.tiptap h4 {
+  font-size: 1.25rem;
   margin-bottom: 0.5rem;
 }
 

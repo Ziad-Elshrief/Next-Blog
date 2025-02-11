@@ -2,12 +2,13 @@
 
 import parse from "html-react-parser";
 import { useState } from "react";
-import { db } from "@/utils/firebase";
-import { setDoc, doc } from "firebase/firestore";
 import TiptapEditor from "@/components/Editor";
 import { Input } from "@/components/Input";
 import useUserInfo from "@/hooks/useUserInfo";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { createPost } from "@/app/actions/posts";
 
 export default function NewPostPage() {
   const { user } = useUserInfo();
@@ -16,26 +17,22 @@ export default function NewPostPage() {
   const router = useRouter();
   if (!user) return null;
   const handleSave = async (content: string) => {
-    try {
-      setPostData(content);
-      const postId = crypto.randomUUID();
-      await setDoc(doc(db, "posts", postId), {
-        postId,
-        title: postTitle,
-        content,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        author: user.uid,
-      });
-      router.push(`post/${postId}`);
-    } catch (error) {
-      console.log(error);
-    }
+    setPostData(content);
+    const postId = await createPost(postTitle, content, user?.uid);
+    if (postId) return router.push(`/blog/post/${postId}`);
+    // Error
   };
 
   return (
     <main className="bg-background-700 py-16">
-      <div className="container mx-auto px-4">
+      <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+        <Link
+          href="/blog"
+          className="mb-8 inline-flex items-center gap-x-1.5 text-sky-600 hover:text-sky-500"
+        >
+          <ArrowLeft className="size-4" />
+          Back to all posts
+        </Link>
         <h1 className="mb-8 text-3xl font-bold text-sky-900 dark:text-sky-600">
           Create New Post
         </h1>
@@ -59,16 +56,18 @@ export default function NewPostPage() {
           <label className="mb-2 block font-medium text-gray-700 dark:text-gray-400">
             Content
           </label>
-          <TiptapEditor onPreview={setPostData} onSave={handleSave} />
+          <TiptapEditor
+            onPreview={setPostData}
+            onSave={handleSave}
+            saveButtonLabel="Save Post"
+          />
         </div>
         <h2 className="mb-2 font-medium text-gray-700 dark:text-gray-400">
           Preview
         </h2>
-        {postData && (
-          <div className="tiptap border-foreground/30 bg-background mt-4 rounded-lg border p-4">
-            {parse(postData)}
-          </div>
-        )}
+        <div className="tiptap border-foreground/30 bg-background mt-4 rounded-lg border p-4">
+          {postData && <>{parse(postData)}</>}
+        </div>
       </div>
     </main>
   );

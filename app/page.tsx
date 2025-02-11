@@ -1,5 +1,4 @@
 import { Input } from "@/components/Input";
-import Footer from "@/components/Footer";
 import PinnedPost from "@/components/PinnedPost";
 import RecentPosts from "@/components/RecentPosts";
 
@@ -33,7 +32,7 @@ export default function HomePage() {
       <RecentPosts />
 
       <section className="bg-sky-100 py-16">
-        <div className="container mx-auto px-4 text-center">
+        <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8 text-center">
           <h2 className="mb-4 text-3xl font-bold text-sky-900">Stay Updated</h2>
           <p className="mb-8 text-sky-700">
             Subscribe to our newsletter for the latest blog posts and updates.
@@ -49,7 +48,6 @@ export default function HomePage() {
           </form>
         </div>
       </section>
-      <Footer />
     </div>
   );
 }

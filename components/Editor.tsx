@@ -10,20 +10,24 @@ import {
   Heading4,
   List,
   ListOrdered,
+  Loader,
 } from "lucide-react";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 type TiptapEditorProps = {
   onSave: (content: string) => void;
   onPreview: Dispatch<SetStateAction<string>>;
   initialContent?: string;
+  saveButtonLabel: string;
 };
 
 const TiptapEditor = ({
   onSave,
   onPreview,
   initialContent,
+  saveButtonLabel,
 }: TiptapEditorProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const editor = useEditor({
     extensions: [StarterKit],
     content: initialContent || "<p>Start writing...</p>",
@@ -39,7 +43,9 @@ const TiptapEditor = ({
   if (!editor) return null;
 
   const handleSave = () => {
+    setIsLoading(true);
     onSave(editor.getHTML());
+    setIsLoading(false);
   };
   const handlePreview = () => {
     onPreview(editor.getHTML());
@@ -47,7 +53,7 @@ const TiptapEditor = ({
 
   return (
     <div className="border-foreground/30 bg-background-600 rounded-lg border p-4">
-      <div className="mb-2 flex flex-wrap space-x-2">
+      <div className="mb-2 flex flex-wrap space-x-2 text-black">
         <button
           onClick={() =>
             editor.chain().focus().toggleHeading({ level: 1 }).run()
@@ -104,10 +110,12 @@ const TiptapEditor = ({
         <EditorContent editor={editor} className="tiptap" />
       </div>
       <button
+        disabled={isLoading}
         onClick={handleSave}
-        className="mt-6 h-9 cursor-pointer rounded-lg bg-sky-600 px-4 py-2 text-white shadow hover:bg-sky-500"
+        className="mt-6 flex h-9 cursor-pointer items-center justify-center gap-x-2 rounded-lg bg-sky-600 px-4 py-2 text-white shadow hover:bg-sky-500"
       >
-        Save Post
+        {isLoading && <Loader className="size-4 animate-spin" />}{" "}
+        {saveButtonLabel}
       </button>
     </div>
   );
