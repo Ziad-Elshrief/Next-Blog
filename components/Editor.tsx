@@ -14,6 +14,7 @@ import {
   Heading3,
   Heading4,
   Loader,
+  ArrowDown,
 } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
 
@@ -108,6 +109,21 @@ const TiptapEditor = ({
           className={`cursor-pointer rounded-lg p-2 ${editor.isActive("codeBlock") ? "bg-sky-700 text-white" : "bg-gray-300"}`}
         >
           <Code className="size-5" />
+        </button>
+
+        <button
+          onClick={() => {
+            if (editor.isActive("codeBlock")) {
+              editor.commands.exitCode();
+              editor.chain().focus();
+            } else {
+              editor.commands.enter();
+              editor.chain().focus().setParagraph().run();
+            }
+          }}
+          className="cursor-pointer rounded-lg bg-sky-900 p-2 text-white"
+        >
+          <ArrowDown className="size-5" />
         </button>
 
         <button
