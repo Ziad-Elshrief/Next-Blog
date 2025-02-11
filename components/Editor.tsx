@@ -18,7 +18,7 @@ import {
 import { Dispatch, SetStateAction, useState } from "react";
 
 type TiptapEditorProps = {
-  onSave: (content: string) => void;
+  onSave: (content: string) => Promise<void>;
   onPreview: Dispatch<SetStateAction<string>>;
   initialContent?: string;
   saveButtonLabel: string;
@@ -45,9 +45,9 @@ const TiptapEditor = ({
 
   if (!editor) return null;
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsLoading(true);
-    onSave(editor.getHTML());
+    await onSave(editor.getHTML());
     setIsLoading(false);
   };
 
@@ -57,7 +57,7 @@ const TiptapEditor = ({
 
   return (
     <div className="border-foreground/30 bg-background-600 rounded-lg border p-4">
-      <div className="mb-2 flex flex-wrap space-x-2 text-black">
+      <div className="mb-2 flex flex-wrap gap-2 text-black">
         {/* Headings */}
         {([1, 2, 3, 4] as const).map((level) => (
           <button
@@ -125,7 +125,7 @@ const TiptapEditor = ({
       <button
         disabled={isLoading}
         onClick={handleSave}
-        className="mt-6 flex h-9 cursor-pointer items-center justify-center gap-x-2 rounded-lg bg-sky-600 px-4 py-2 text-white shadow hover:bg-sky-500"
+        className="mt-6 flex h-9 cursor-pointer items-center justify-center gap-x-2 rounded-lg bg-sky-600 px-4 py-2 text-white shadow hover:bg-sky-500 disabled:bg-gray-600"
       >
         {isLoading && <Loader className="size-4 animate-spin" />}{" "}
         {saveButtonLabel}

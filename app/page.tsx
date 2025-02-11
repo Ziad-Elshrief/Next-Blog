@@ -1,6 +1,7 @@
 import { Input } from "@/components/Input";
 import PinnedPost from "@/components/PinnedPost";
 import RecentPosts from "@/components/RecentPosts";
+import Link from "next/link";
 
 export default function HomePage() {
   return (
@@ -18,9 +19,12 @@ export default function HomePage() {
             </p>
             <div className="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
               <div className="rounded-md shadow">
-                <button className="h-9 cursor-pointer rounded-lg bg-sky-600 px-4 py-2 text-white shadow hover:bg-sky-500">
+                <Link
+                  href="/blog"
+                  className="h-9 rounded-lg bg-sky-600 px-4 py-2 text-white shadow hover:bg-sky-500"
+                >
                   Read Latest Post
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -32,7 +36,7 @@ export default function HomePage() {
       <RecentPosts />
 
       <section className="bg-sky-100 py-16">
-        <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8 text-center">
+        <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:px-8">
           <h2 className="mb-4 text-3xl font-bold text-sky-900">Stay Updated</h2>
           <p className="mb-8 text-sky-700">
             Subscribe to our newsletter for the latest blog posts and updates.
