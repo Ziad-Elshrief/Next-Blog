@@ -34,6 +34,7 @@ const TiptapEditor = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const editor = useEditor({
+    immediatelyRender:false,
     extensions: [StarterKit],
     content: initialContent || "<p>Start writing...</p>",
     editorProps: {
