@@ -19,7 +19,7 @@ export default async function BlogPost({
   }
 
   return (
-    <article className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+    <article className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <Link
         href="/blog"
         className="mb-8 inline-flex items-center gap-x-1.5 text-sky-600 hover:text-sky-500"

@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer className="bg-sky-900 py-8 text-sky-100">
-      <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex flex-wrap justify-between">
           <div className="mb-6 w-full md:mb-0 md:w-1/3">
             <h3 className="mb-2 text-xl font-semibold">About Next Blog</h3>

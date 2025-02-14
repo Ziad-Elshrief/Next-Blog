@@ -6,7 +6,7 @@ import { Suspense } from "react";
 
 export default function RecentPosts() {
   return (
-    <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <h2 className="mb-8 text-3xl font-bold text-sky-900 dark:text-sky-600">
           Recent Posts
         </h2>

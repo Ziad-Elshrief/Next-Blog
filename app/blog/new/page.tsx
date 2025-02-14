@@ -43,7 +43,7 @@ export default function NewPostPage() {
           <Loader2 className="text-primary mx-auto mt-20 size-40 animate-spin" />
         </>
       ) : (
-        <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <Link
             href="/blog"
             className="mb-8 inline-flex items-center gap-x-1.5 text-sky-600 hover:text-sky-500"
