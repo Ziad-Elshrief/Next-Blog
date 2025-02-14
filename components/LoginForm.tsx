@@ -16,6 +16,7 @@ export default function LoginForm() {
   );
   useEffect(() => {
     if (state?.success) router.push("/");
+    console.log(state);
   }, [router, state]);
   return (
     <>
@@ -31,7 +32,7 @@ export default function LoginForm() {
           <span className="w-full border-t border-gray-700" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background-300 dark:bg-gray-900 px-2 text-gray-700 dark:text-gray-400">
+          <span className="bg-background-300 px-2 text-gray-700 dark:bg-gray-900 dark:text-gray-400">
             or continue with
           </span>
         </div>
@@ -47,9 +48,16 @@ export default function LoginForm() {
             id="email"
             placeholder="Enter your email..."
             required
+            defaultValue={state?.email}
           />
           {state?.errors?.email && (
-            <p className="text-red-600">{state.errors.email}</p>
+            <ul>
+              {state.errors.email.map((error, index) => (
+                <li className="text-red-600" key={index}>
+                  {error}
+                </li>
+              ))}
+            </ul>
           )}
         </div>
         <div>
@@ -73,13 +81,19 @@ export default function LoginForm() {
             required
           />
           {state?.errors?.password && (
-            <p className="text-red-600">{state.errors.password}</p>
+            <ul>
+              {state.errors.password.map((error, index) => (
+                <li className="text-red-600" key={index}>
+                  {error}
+                </li>
+              ))}
+            </ul>
           )}
         </div>
         <button
           disabled={pending}
           type="submit"
-          className="flex h-9 w-full cursor-pointer items-center justify-center gap-x-1.5 rounded-lg bg-primary px-4 py-2 text-white shadow hover:bg-primary-hover disabled:bg-gray-600"
+          className="bg-primary hover:bg-primary-hover flex h-9 w-full cursor-pointer items-center justify-center gap-x-1.5 rounded-lg px-4 py-2 text-white shadow disabled:bg-gray-600"
         >
           {pending && <Loader className="mr-2 h-4 w-4 animate-spin" />}
           Sign In

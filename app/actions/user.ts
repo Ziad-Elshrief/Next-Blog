@@ -1,4 +1,5 @@
 import { auth, db, provider } from "@/utils/firebase";
+import { firebaseAuthError } from "@/utils/formatErrors";
 import {
   AuthError,
   createUserWithEmailAndPassword,
@@ -11,20 +12,25 @@ import {
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { z } from "zod";
 
-const registerSchema = z.object({
-  firstName: z.string().max(60, "First Name must not exceed 60 charachters"),
-  lastName: z
-    .string()
-    .max(60, "Last Name must not exceed 60 charachters")
-    .optional(),
-  email: z.string().email("Invalid Email").trim(),
-  password: z
-    .string({ invalid_type_error: "Invalid password" })
-    .min(8, "Password must be at least 8 characters long"),
-  confirmPassword: z
-    .string({ invalid_type_error: "Invalid password" })
-    .min(8, "Password must be at least 8 characters long"),
-});
+const registerSchema = z
+  .object({
+    firstName: z.string().max(60, "First Name must not exceed 60 charachters"),
+    lastName: z
+      .string()
+      .max(60, "Last Name must not exceed 60 charachters")
+      .optional(),
+    email: z.string().email("Invalid Email").trim(),
+    password: z
+      .string({ invalid_type_error: "Invalid password" })
+      .min(8, "Password must be at least 8 characters long"),
+    confirmPassword: z
+      .string({ invalid_type_error: "Invalid password" })
+      .min(8, "Password must be at least 8 characters long"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords must match",
+    path: ["confirmPassword"],
+  });
 
 export default async function createUserEmailPassword(
   _prevState: unknown,
@@ -35,14 +41,7 @@ export default async function createUserEmailPassword(
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const confirmPassword = formData.get("confirmPassword") as string;
-  if (password !== confirmPassword) {
-    return {
-      errors: {
-        password: ["passwords do not match"],
-        confirmPassword: ["passwords do not match"],
-      },
-    };
-  }
+
   const validatedFields = registerSchema.safeParse({
     firstName,
     lastName,
@@ -54,6 +53,11 @@ export default async function createUserEmailPassword(
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
+      formFields: {
+        firstName,
+        lastName,
+        email,
+      },
     };
   }
 
@@ -78,9 +82,13 @@ export default async function createUserEmailPassword(
     };
   } catch (error) {
     const err = error as AuthError;
-    console.log(err.message);
     return {
-      error: err.message,
+      error: firebaseAuthError(err.code),
+      formFields: {
+        firstName,
+        lastName,
+        email,
+      },
     };
   }
 }
@@ -115,18 +123,20 @@ export const loginUserEmailPassword = async (
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
+      email,
     };
   }
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
     return {
-      success: "Logged In",
+      success: "Successfully logged in",
     };
   } catch (error) {
     const err = error as AuthError;
     return {
-      error: err.message,
+      error: firebaseAuthError(err.code),
+      email,
     };
   }
 };
@@ -148,7 +158,8 @@ export const loginUserGoogle = async () => {
       });
       await sendEmailVerification(user);
     } catch (error) {
-      console.log(error);
+      const err = error as AuthError;
+      firebaseAuthError(err.code);
       return {
         error: "Error signing in with google",
       };
