@@ -7,6 +7,7 @@ import { Loader } from "lucide-react";
 import Image from "next/image";
 import { Input } from "./Input";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -15,8 +16,11 @@ export default function LoginForm() {
     undefined
   );
   useEffect(() => {
-    if (state?.success) router.push("/");
-    console.log(state);
+    if (state?.success) {
+      router.push("/");
+      toast.success(state.success);
+    }
+    if(state?.error) toast.error(state.error)
   }, [router, state]);
   return (
     <>

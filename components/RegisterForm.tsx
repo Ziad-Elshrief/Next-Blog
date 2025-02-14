@@ -5,6 +5,7 @@ import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { Input } from "./Input";
+import toast from "react-hot-toast";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -13,8 +14,11 @@ export default function RegisterForm() {
     undefined
   );
   useEffect(() => {
-    if (state?.success) router.push("/");
-    console.log(state);
+    if (state?.success) {
+      router.push("/");
+      toast.success(state.success);
+    }
+    if(state?.error) toast.error(state.error)
   }, [router, state]);
   return (
     <form action={formAction} className="space-y-4">

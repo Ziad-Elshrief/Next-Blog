@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { createPost } from "@/app/actions/posts";
+import toast from "react-hot-toast";
 
 export default function NewPostPage() {
   const { user, isLoading } = useUserInfo();
@@ -19,8 +20,12 @@ export default function NewPostPage() {
   const handleSave = async (content: string) => {
     setPostData(content);
     const postId = await createPost(postTitle, content, user?.uid);
-    if (postId) return router.push(`/blog/post/${postId}`);
-    // Error
+    if (postId) {
+      router.push(`/blog/post/${postId}`);
+      toast.success("Post created");
+    }else{
+      toast.error("Post was not created")
+    }
   };
 
   // Wait until the user is loaded

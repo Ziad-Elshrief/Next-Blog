@@ -11,6 +11,7 @@ import {
 import { Trash2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function DeletePostButton({ postId }: { postId: string }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +20,7 @@ export default function DeletePostButton({ postId }: { postId: string }) {
     await deletePost(postId);
     setIsOpen(false);
     router.push("/blog");
+    toast.success("Post deleted");
   };
   return (
     <>

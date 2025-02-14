@@ -204,15 +204,14 @@ export const forgotPassword = async (
 };
 
 export const sendEmailVerificationMail = async () => {
+  if (!auth.currentUser) {
+    throw new Error("No authenticated user found");
+  }
   try {
-    if (auth.currentUser) await sendEmailVerification(auth.currentUser);
-    return {
-      success: "An email was sent to verify your email",
-    };
+    await sendEmailVerification(auth.currentUser);
+    return "Verification email sent";
   } catch (error) {
     const err = error as AuthError;
-    return {
-      error: err.message,
-    };
+    throw new Error(err.message);
   }
 };

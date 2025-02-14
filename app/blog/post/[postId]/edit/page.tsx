@@ -10,6 +10,7 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 import { editPost, getPostById } from "@/app/actions/posts";
 import useUserInfo from "@/hooks/useUserInfo";
 import { DocumentData } from "firebase/firestore";
+import toast from "react-hot-toast";
 
 export default function EditPostPage({
   params,
@@ -27,8 +28,10 @@ export default function EditPostPage({
       setPostData(content);
       await editPost(post?.postId, postTitle, content);
       router.push(`/blog/post/${post?.postId}`);
+      toast.success("Saved changes")
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong")
     }
   };
   useEffect(() => {

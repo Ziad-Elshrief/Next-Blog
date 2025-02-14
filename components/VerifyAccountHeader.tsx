@@ -11,6 +11,7 @@ import {
 } from "@headlessui/react";
 import { AlertCircle } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function VerifyAccountHeader() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +20,12 @@ export default function VerifyAccountHeader() {
     return null;
   }
   const verifyHandler = async () => {
-    await sendEmailVerificationMail();
+    setIsOpen(false);
+    toast.promise(sendEmailVerificationMail(), {
+      loading: "Sending...",
+      success: "An email was sent to verify your email",
+      error: "Couldn't send email",
+    });
   };
   return (
     <header className="flex items-center justify-center gap-x-1 border-yellow-700 bg-yellow-900 p-2 text-xs sm:text-base">
@@ -45,7 +51,7 @@ export default function VerifyAccountHeader() {
             transition
             className="max-w-lg space-y-4 rounded-xl bg-gray-900 p-12 shadow-2xl duration-300 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
           >
-            <DialogTitle className="text-center text-xl font-bold text-primary-hover">
+            <DialogTitle className="text-primary-hover text-center text-xl font-bold">
               Send verification email
             </DialogTitle>
             <Description className="text-sm text-gray-400">
@@ -60,11 +66,8 @@ export default function VerifyAccountHeader() {
                 Cancel
               </button>
               <button
-                className="flex h-9 cursor-pointer items-center justify-center gap-x-1.5 rounded-lg bg-primary px-4 py-2 text-white shadow hover:bg-primary-hover disabled:bg-gray-600"
-                onClick={() => {
-                  verifyHandler();
-                  setIsOpen(false);
-                }}
+                className="bg-primary hover:bg-primary-hover flex h-9 cursor-pointer items-center justify-center gap-x-1.5 rounded-lg px-4 py-2 text-white shadow disabled:bg-gray-600"
+                onClick={verifyHandler}
               >
                 Send
               </button>

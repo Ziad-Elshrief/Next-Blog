@@ -1,20 +1,22 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Input } from "./Input";
 import { useActionState, useEffect } from "react";
 import { forgotPassword } from "@/app/actions/user";
 import { Loader } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function ForgotPassForm() {
-  const router = useRouter();
   const [state, formAction, pending] = useActionState(
     forgotPassword,
     undefined
   );
   useEffect(() => {
-    if (state?.success) router.push("/");
-  }, [router, state]);
+    if (state?.success) {
+      toast.success(state.success);
+    }
+    if(state?.error) toast.error(state.error)
+  }, [state]);
   return (
     <form action={formAction} className="space-y-4">
       <div>
