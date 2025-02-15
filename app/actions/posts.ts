@@ -25,7 +25,7 @@ export const getRecentPosts = async () => {
     return querySnapshot.docs.map((doc) => doc.data());
   } catch (error) {
     console.log(error);
-    return []
+    return [];
   }
 };
 

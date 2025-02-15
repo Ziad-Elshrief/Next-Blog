@@ -69,7 +69,7 @@ export default function UsersManagement() {
   });
 
   return (
-    <div className="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
+    <div className="mx-auto mb-10 max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
       <h1 className="mt-10 text-center text-2xl font-semibold">
         Users Management
       </h1>
