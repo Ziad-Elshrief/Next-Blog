@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { ArrowLeft, Ban } from "lucide-react";
+import { ArrowLeft, Ban, PinIcon } from "lucide-react";
 import Link from "next/link";
 import parse from "html-react-parser";
 import { fortmatDate } from "@/utils/formatPosts";
@@ -27,6 +27,11 @@ export default async function BlogPost({
         <ArrowLeft className="size-4" />
         Back to all posts
       </Link>
+      {post.pinned && (
+        <p className="mb-4 flex items-center gap-x-2 text-xl text-sky-700">
+          <PinIcon className="size-5 rotate-45" /> Pinned
+        </p>
+      )}
       <h1 className="mb-4 text-4xl font-bold text-gray-600 dark:text-gray-300">
         {post.title}
       </h1>

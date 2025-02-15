@@ -10,6 +10,7 @@ import {
   LogOut,
   LogOutIcon,
   MenuIcon,
+  PenBoxIcon,
   UserCircle2Icon,
   UserPlus2,
   X,
@@ -53,6 +54,11 @@ export default function Navbar() {
           <li>
             <Link href="/blog" className="hover:text-sky-200">
               Blog
+            </Link>
+          </li>
+          <li>
+            <Link href="/blog/new" className="hover:text-sky-200">
+              Create Post
             </Link>
           </li>
         </ul>
@@ -219,6 +225,12 @@ function NavSidebar() {
                   icon={<BookOpenText className="size-5" />}
                 >
                   Blog
+                </SidebarLinkItem>
+                <SidebarLinkItem
+                  href="/blog/new"
+                  icon={<PenBoxIcon className="size-5" />}
+                >
+                  Create Post
                 </SidebarLinkItem>
               </DisclosurePanel>
             </>

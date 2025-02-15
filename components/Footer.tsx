@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="flex flex-wrap justify-between">
           <div className="mb-6 w-full md:mb-0 md:w-1/3">
             <h3 className="mb-2 text-xl font-semibold">About Next Blog</h3>
-            <p className="text-sky-300">
+            <p className="text-balance text-sky-300">
               Bringing you the latest insights and trends in technology and
               beyond.
             </p>
@@ -16,13 +16,21 @@ export default function Footer() {
             <h3 className="mb-2 text-xl font-semibold">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="hover:text-white">
+                <Link href="/" className="text-sky-300 hover:text-white">
                   Home
                 </Link>
-              </li>{" "}
+              </li>
               <li>
-                <Link href="/blog" className="hover:text-white">
+                <Link href="/blog" className="text-sky-300 hover:text-white">
                   Blog
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/blog/new"
+                  className="text-sky-300 hover:text-white"
+                >
+                  Create Post
                 </Link>
               </li>
             </ul>

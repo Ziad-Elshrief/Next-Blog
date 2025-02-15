@@ -5,4 +5,5 @@ export type postType = {
   author: string;
   createdAt: string;
   updatedAt: string;
+  pinned:boolean;
 };

@@ -11,6 +11,7 @@ import {
   query,
   setDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 
 export const getRecentPosts = async () => {
@@ -84,44 +85,80 @@ export const createPost = async (
   authorId: string
 ) => {
   try {
-  const postId = crypto.randomUUID();
-  await setDoc(doc(db, "posts", postId), {
-    postId,
-    title,
-    content,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    author: authorId,
-  });
-  return postId
-} catch (error) {
-  console.log(error);
-  return null
-}
+    const postId = crypto.randomUUID();
+    await setDoc(doc(db, "posts", postId), {
+      postId,
+      title,
+      content,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      author: authorId,
+      pinned: false,
+    });
+    return postId;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };
 
 export const editPost = async (
-  postId:string,
+  postId: string,
   title: string,
-  content: string,
+  content: string
 ) => {
   try {
-  await updateDoc(doc(db, "posts", postId), {
-    title,
-    content,
-    updatedAt: new Date().toISOString(),
-  });
-} catch (error) {
-  console.log(error);
-}
+    await updateDoc(doc(db, "posts", postId), {
+      title,
+      content,
+      updatedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-export const deletePost = async (
-  postId:string,
-) => {
+export const deletePost = async (postId: string) => {
   try {
-  await deleteDoc(doc(db, "posts", postId));
-} catch (error) {
-  console.log(error);
-}
+    await deleteDoc(doc(db, "posts", postId));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPinnedPost = async () => {
+  try {
+    const q = query(
+      collection(db, "posts"),
+      where("pinned", "==", true),
+      limit(1)
+    );
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs[0].data();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const pinPost = async (postId: string) => {
+  try {
+    // unpin old post
+    const q = query(
+      collection(db, "posts"),
+      where("pinned", "==", true),
+      limit(1)
+    );
+    const querySnapshot = await getDocs(q);
+    const oldPinnedPost = querySnapshot.docs[0].data();
+    await updateDoc(doc(db, "posts", oldPinnedPost.postId), {
+      pinned: false,
+    });
+
+    //pin new post
+    await updateDoc(doc(db, "posts", postId), {
+      pinned: true,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
