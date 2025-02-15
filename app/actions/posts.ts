@@ -25,6 +25,7 @@ export const getRecentPosts = async () => {
     return querySnapshot.docs.map((doc) => doc.data());
   } catch (error) {
     console.log(error);
+    return []
   }
 };
 
@@ -149,14 +150,26 @@ export const pinPost = async (postId: string) => {
       limit(1)
     );
     const querySnapshot = await getDocs(q);
-    const oldPinnedPost = querySnapshot.docs[0].data();
-    await updateDoc(doc(db, "posts", oldPinnedPost.postId), {
-      pinned: false,
-    });
+    if (querySnapshot.docs.length) {
+      const oldPinnedPost = querySnapshot.docs[0].data();
+      await updateDoc(doc(db, "posts", oldPinnedPost.postId), {
+        pinned: false,
+      });
+    }
 
     //pin new post
     await updateDoc(doc(db, "posts", postId), {
       pinned: true,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const unpinPost = async (postId: string) => {
+  try {
+    await updateDoc(doc(db, "posts", postId), {
+      pinned: false,
     });
   } catch (error) {
     console.log(error);

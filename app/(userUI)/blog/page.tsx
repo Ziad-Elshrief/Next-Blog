@@ -1,7 +1,7 @@
 import PinnedPost from "@/components/PinnedPost";
 import { PenBoxIcon } from "lucide-react";
 import Link from "next/link";
-import { getAllPosts } from "../actions/posts";
+import { getAllPosts } from "../../actions/posts";
 import { Suspense } from "react";
 import PaginatedPosts from "@/components/PaginatedPosts";
 

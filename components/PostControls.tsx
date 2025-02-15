@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Pencil } from "lucide-react";
 import Link from "next/link";
 import DeletePostButton from "./DeletePostButton";
-import { auth } from "@/utils/firebase";
+import useUserInfo from "@/hooks/useUserInfo";
 
 export default function PostControls({
   postId,
@@ -13,16 +12,9 @@ export default function PostControls({
   postId: string;
   authorId: string;
 }) {
-  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const { user } = useUserInfo();
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUserId(user ? user.uid : null);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  if (currentUserId !== authorId) return null;
+  if (user?.role !== "admin" && user?.uid !== authorId) return null;
 
   return (
     <div className="mb-4 flex items-center gap-x-3">

@@ -3,16 +3,16 @@
 import { logout } from "@/app/actions/user";
 import useUserInfo from "@/hooks/useUserInfo";
 import {
-  BookOpenText,
   ChevronDown,
-  Home,
+  LayoutDashboard,
   LogInIcon,
   LogOut,
   LogOutIcon,
   MenuIcon,
-  PenBoxIcon,
+  PencilLine,
   UserCircle2Icon,
   UserPlus2,
+  Users,
   X,
 } from "lucide-react";
 import Link from "next/link";
@@ -36,7 +36,7 @@ import {
 } from "@headlessui/react";
 import UserAvatar from "./UserAvatar";
 
-export default function Navbar() {
+export default function AdminNavbar() {
   const { user } = useUserInfo();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
@@ -47,18 +47,18 @@ export default function Navbar() {
         </Link>
         <ul className="hidden gap-x-3 md:flex">
           <li>
-            <Link href="/" className="hover:text-sky-200">
-              Home
+            <Link href="/admin" className="hover:text-sky-200">
+              Dashboard
             </Link>
           </li>
           <li>
-            <Link href="/blog" className="hover:text-sky-200">
-              Blog
+            <Link href="/admin/posts" className="hover:text-sky-200">
+              Posts
             </Link>
           </li>
           <li>
-            <Link href="/blog/new" className="hover:text-sky-200">
-              Create Post
+            <Link href="/admin/users" className="hover:text-sky-200">
+              Users
             </Link>
           </li>
         </ul>
@@ -217,20 +217,23 @@ function NavSidebar() {
                 transition
                 className="mb-4 origin-top space-y-1.5 transition duration-500 ease-out data-[closed]:-translate-y-6 data-[closed]:opacity-0"
               >
-                <SidebarLinkItem href="/" icon={<Home className="size-5" />}>
-                  Home
+                <SidebarLinkItem
+                  href="/admin"
+                  icon={<LayoutDashboard className="size-5" />}
+                >
+                  Dashboard
                 </SidebarLinkItem>
                 <SidebarLinkItem
-                  href="/blog"
-                  icon={<BookOpenText className="size-5" />}
+                  href="/admin/posts"
+                  icon={<PencilLine className="size-5" />}
                 >
-                  Blog
+                  Posts
                 </SidebarLinkItem>
                 <SidebarLinkItem
-                  href="/blog/new"
-                  icon={<PenBoxIcon className="size-5" />}
+                  href="/admin/users"
+                  icon={<Users className="size-5" />}
                 >
-                  Create Post
+                  Users
                 </SidebarLinkItem>
               </DisclosurePanel>
             </>
