@@ -8,7 +8,7 @@ import useUserInfo from "@/hooks/useUserInfo";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Loader2 } from "lucide-react";
-import { createPost } from "@/app/actions/posts";
+import { createPost, getPostPermission } from "@/app/actions/posts";
 import toast from "react-hot-toast";
 
 export default function NewPostPage() {
@@ -18,6 +18,13 @@ export default function NewPostPage() {
   const router = useRouter();
 
   const handleSave = async (content: string) => {
+    const canPost = (await getPostPermission())?.canPost as string[];
+    if (!canPost.includes(user?.role)) {
+      toast.error(
+        `Only${canPost.map((role) => ` ${role}s`)} can post at this moment`
+      );
+      return;
+    }
     setPostData(content);
     const postId = await createPost(postTitle, content, user?.uid);
     if (postId) {

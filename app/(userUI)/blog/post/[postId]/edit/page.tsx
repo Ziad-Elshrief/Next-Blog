@@ -4,7 +4,7 @@ import parse from "html-react-parser";
 import { useEffect, useState } from "react";
 import TiptapEditor from "@/components/Editor";
 import { Input } from "@/components/Input";
-import { notFound, useRouter } from "next/navigation";
+import { notFound, useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { editPost, getPostById } from "@/app/actions/posts";
@@ -12,11 +12,8 @@ import useUserInfo from "@/hooks/useUserInfo";
 import { DocumentData } from "firebase/firestore";
 import toast from "react-hot-toast";
 
-export default function EditPostPage({
-  params,
-}: {
-  params: Promise<{ postId: string }>;
-}) {
+export default function EditPostPage() {
+  const { postId } = useParams<{ postId: string }>();
   const { user } = useUserInfo();
   const [postData, setPostData] = useState("");
   const [postTitle, setPostTitle] = useState("");
@@ -37,7 +34,6 @@ export default function EditPostPage({
   useEffect(() => {
     const fetchPostData = async () => {
       setIsLoading(true);
-      const { postId } = await params;
       const post = await getPostById(postId);
 
       if (!post) return notFound();
@@ -58,8 +54,8 @@ export default function EditPostPage({
       router.replace("/login");
     }
     if (user?.isBanned) router.replace("/banned");
-    if (post && post.author !== user?.uid) {
-      router.replace(`/blog/post/${post.postId}`);
+    if (post?.author !== user?.uid && user?.role !== "admin") {
+      router.replace(`/blog/post/${post?.postId}`);
     }
   }, [user, isLoading, post, router]); // Only run when all dependencies are loaded
 

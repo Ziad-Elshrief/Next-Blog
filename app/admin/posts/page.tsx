@@ -46,7 +46,9 @@ export default function PostsManagement() {
     }
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
-        post.postId === postId ? { ...post, pinned: !pinned } : post
+        post.postId === postId
+          ? { ...post, pinned: !pinned }
+          : { ...post, pinned: false }
       )
     );
   };
