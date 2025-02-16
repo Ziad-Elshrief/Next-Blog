@@ -175,3 +175,12 @@ export const unpinPost = async (postId: string) => {
     console.log(error);
   }
 };
+
+export const getPostPermission = async () => {
+  try {
+    const docSnap = await getDoc(doc(db, "settings", "post-permissions"));
+    return docSnap.data();
+  } catch (error) {
+    console.log(error);
+  }
+};

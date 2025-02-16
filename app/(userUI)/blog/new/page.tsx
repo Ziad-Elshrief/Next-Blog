@@ -23,8 +23,8 @@ export default function NewPostPage() {
     if (postId) {
       router.push(`/blog/post/${postId}`);
       toast.success("Post created");
-    }else{
-      toast.error("Post was not created")
+    } else {
+      toast.error("Post was not created");
     }
   };
 
@@ -33,6 +33,7 @@ export default function NewPostPage() {
     if (!isLoading && !user) {
       router.push("/login");
     }
+    if (user?.isBanned) router.replace("/banned");
   }, [isLoading, user, router]);
 
   return (

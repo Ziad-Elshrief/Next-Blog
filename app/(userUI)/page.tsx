@@ -18,14 +18,12 @@ export default function HomePage() {
               more.
             </p>
             <div className="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
-              <div className="rounded-md shadow">
-                <Link
-                  href="/blog"
-                  className="h-9 rounded-lg bg-sky-600 px-4 py-2 text-white shadow hover:bg-sky-500"
-                >
-                  Read Latest Post
-                </Link>
-              </div>
+              <Link
+                href="/blog"
+                className="h-9 rounded-lg bg-sky-600 px-4 py-2 text-white shadow-md hover:bg-sky-500"
+              >
+                Read Latest Post
+              </Link>
             </div>
           </div>
         </div>

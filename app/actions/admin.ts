@@ -2,7 +2,6 @@ import { db } from "@/utils/firebase";
 import {
   collection,
   doc,
-  getDoc,
   getDocs,
   updateDoc,
 } from "firebase/firestore";
@@ -48,15 +47,6 @@ export const changePostPermission = async (roles: string) => {
     await updateDoc(doc(db, "settings", "post-permissions"), {
       canPost,
     });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getPostPermission = async () => {
-  try {
-    const docSnap = await getDoc(doc(db, "settings", "post-permissions"));
-    return docSnap.data();
   } catch (error) {
     console.log(error);
   }

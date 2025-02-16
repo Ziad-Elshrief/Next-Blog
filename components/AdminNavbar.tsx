@@ -95,7 +95,9 @@ function NavUserIcon() {
     <>
       {user && (
         <Menu as="div">
-          <MenuButton className="mt-[3.5px] cursor-pointer">
+          <MenuButton
+            className={`${user.avatar ? "mt-[3.5px]" : ""} cursor-pointer`}
+          >
             <UserAvatar fontSize="text-sm" />
           </MenuButton>
           <MenuItems

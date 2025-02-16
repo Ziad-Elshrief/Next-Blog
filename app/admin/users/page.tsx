@@ -8,10 +8,10 @@ import {
   changeUserBan,
   changeUserRole,
   getAllUsers,
-  getPostPermission,
 } from "@/app/actions/admin";
 import { DocumentData } from "firebase/firestore";
 import { Loader2 } from "lucide-react";
+import { getPostPermission } from "@/app/actions/posts";
 
 export default function UsersManagement() {
   const [isLoading, setIsLoading] = useState(true);

@@ -37,7 +37,7 @@ import {
 import UserAvatar from "./UserAvatar";
 
 export default function Navbar() {
-  const { user } = useUserInfo();
+  const { user, isLoading } = useUserInfo();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
     <nav className="bg-secondary py-3">
@@ -73,7 +73,11 @@ export default function Navbar() {
               <MenuIcon className="size-8" />
             )}
           </button>
-          {user ? <NavUserIcon /> : <NavNoUserIcon />}
+          {isLoading ? (
+            <UserCircle2Icon className="size-8" />
+          ) : (
+            <>{user ? <NavUserIcon /> : <NavNoUserIcon />}</>
+          )}
         </div>
       </div>
       <Sidebar setIsOpen={setIsSidebarOpen} isOpen={isSidebarOpen}>
@@ -95,7 +99,9 @@ function NavUserIcon() {
     <>
       {user && (
         <Menu as="div">
-          <MenuButton className="mt-[3.5px] cursor-pointer">
+          <MenuButton
+            className={`${user.avatar ? "mt-[3.5px]" : ""} cursor-pointer`}
+          >
             <UserAvatar fontSize="text-sm" />
           </MenuButton>
           <MenuItems

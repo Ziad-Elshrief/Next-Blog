@@ -4,7 +4,7 @@ import parse from "html-react-parser";
 import { useEffect, useState } from "react";
 import TiptapEditor from "@/components/Editor";
 import { Input } from "@/components/Input";
-import { notFound, redirect, useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { editPost, getPostById } from "@/app/actions/posts";
@@ -28,10 +28,10 @@ export default function EditPostPage({
       setPostData(content);
       await editPost(post?.postId, postTitle, content);
       router.push(`/blog/post/${post?.postId}`);
-      toast.success("Saved changes")
+      toast.success("Saved changes");
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong")
+      toast.error("Something went wrong");
     }
   };
   useEffect(() => {
@@ -39,35 +39,37 @@ export default function EditPostPage({
       setIsLoading(true);
       const { postId } = await params;
       const post = await getPostById(postId);
-  
+
       if (!post) return notFound();
-  
+
       setPostData(post.content);
       setPostTitle(post.title);
       setPost(post);
       setIsLoading(false);
     };
-  
+
     fetchPostData();
   }, []);
-  
+
   useEffect(() => {
     if (user === undefined || isLoading) return;
-  
+
     if (user === null) {
-      redirect("/login");
+      router.replace("/login");
     }
-    if (post && post.author !== user.uid) {
-      redirect(`/blog/post/${post.postId}`);
+    if (user?.isBanned) router.replace("/banned");
+    if (post && post.author !== user?.uid) {
+      router.replace(`/blog/post/${post.postId}`);
     }
-  }, [user, isLoading, post]); // Only run when all dependencies are loaded
-  
+  }, [user, isLoading, post, router]); // Only run when all dependencies are loaded
+
   return (
-    <main className="bg-background-700 py-16 min-h-screen">
-      {isLoading ? (<>
-      <span className="sr-only"></span>
-        <Loader2 className="text-primary mx-auto mt-20 size-40 animate-spin" />
-      </>
+    <main className="bg-background-700 min-h-screen py-16">
+      {isLoading ? (
+        <>
+          <span className="sr-only"></span>
+          <Loader2 className="text-primary mx-auto mt-20 size-40 animate-spin" />
+        </>
       ) : (
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <Link
