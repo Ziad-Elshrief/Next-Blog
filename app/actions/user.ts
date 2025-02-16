@@ -1,5 +1,6 @@
-import { auth, db, provider } from "@/utils/firebase";
+import { analytics, auth, db, provider } from "@/utils/firebase";
 import { firebaseAuthError } from "@/utils/formatErrors";
+import { logEvent } from "firebase/analytics";
 import {
   AuthError,
   createUserWithEmailAndPassword,
@@ -128,7 +129,15 @@ export const loginUserEmailPassword = async (
   }
 
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    logEvent(analytics, "login", {
+      method: "email_password",
+      user_id: userCredential.user.uid,
+    });
     return {
       success: "Successfully logged in",
     };
@@ -144,6 +153,10 @@ export const loginUserEmailPassword = async (
 export const loginUserGoogle = async () => {
   try {
     const { user } = await signInWithPopup(auth, provider);
+    logEvent(analytics, "login", {
+      method: "google",
+      user_id: user.uid,
+    });
     try {
       const userDB = await getDoc(doc(db, "users", user.uid));
       if (userDB.exists()) return;

@@ -26,17 +26,25 @@ export default function DashboardAnalytics() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const users = await getAllUsers();
-      const posts = await getAllPosts();
-      setTotal({
-        users: users.length,
-        posts: posts.length,
-      });
-      setUsersData(processData(users, "joinedAt"));
-      setPostsData(processData(posts, "createdAt"));
-      setIsLoading(false);
-    };
+      try {
+        const [users, posts] = await Promise.all([
+          getAllUsers(),
+          getAllPosts(),
+        ]);
 
+        setTotal({
+          users: users.length,
+          posts: posts.length,
+        });
+
+        setUsersData(processData(users, "joinedAt"));
+        setPostsData(processData(posts, "createdAt"));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
     fetchData();
   }, []);
 
@@ -52,9 +60,9 @@ export default function DashboardAnalytics() {
     });
 
     const now = new Date();
-    const monthsRange: { month: string; count: number }[] = [];
+    const monthsRange: dataAnalyticsType[] = [];
 
-    for (let i = -5; i <= 5; i++) {
+    for (let i = -9; i <= 1; i++) {
       const tempDate = new Date(now.getFullYear(), now.getMonth() + i, 1);
       const monthYear = `${tempDate.getFullYear()}-${(tempDate.getMonth() + 1)
         .toString()
