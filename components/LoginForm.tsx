@@ -36,7 +36,7 @@ export default function LoginForm() {
           <span className="w-full border-t border-gray-700" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background-300 px-2 text-gray-700 dark:bg-gray-900 dark:text-gray-400">
+          <span className="bg-background-300 px-2 text-sub-foreground">
             or continue with
           </span>
         </div>

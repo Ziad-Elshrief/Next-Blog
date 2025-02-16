@@ -59,13 +59,13 @@ export default function NewPostPage() {
             <ArrowLeft className="size-4" />
             Back to all posts
           </Link>
-          <h1 className="mb-8 text-3xl font-bold text-sky-900 dark:text-sky-600">
+          <h1 className="mb-8 text-3xl font-bold text-primary-foreground">
             Create New Post
           </h1>
           <div className="mb-6">
             <label
               htmlFor="title"
-              className="mb-2 block font-medium text-gray-700 dark:text-gray-400"
+              className="mb-2 block font-medium text-sub-foreground"
             >
               Title
             </label>
@@ -79,7 +79,7 @@ export default function NewPostPage() {
             />
           </div>
           <div className="mb-6">
-            <label className="mb-2 block font-medium text-gray-700 dark:text-gray-400">
+            <label className="mb-2 block font-medium text-sub-foreground">
               Content
             </label>
             <TiptapEditor
@@ -88,7 +88,7 @@ export default function NewPostPage() {
               saveButtonLabel="Save Post"
             />
           </div>
-          <h2 className="mb-2 font-medium text-gray-700 dark:text-gray-400">
+          <h2 className="mb-2 font-medium text-sub-foreground">
             Preview
           </h2>
           <div className="tiptap border-foreground/30 bg-background mt-4 rounded-lg border p-4">

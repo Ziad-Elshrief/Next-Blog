@@ -25,7 +25,7 @@ export default function AdminProtect({ children }: { children: ReactNode }) {
                   <div className="mb-6 flex justify-center">
                     <AlertTriangle className="h-16 w-16 text-red-500" />
                   </div>
-                  <h1 className="mb-4 text-center text-2xl font-bold text-gray-700 dark:text-gray-400">
+                  <h1 className="mb-4 text-center text-2xl font-bold text-sub-foreground">
                     Unauthorized Access
                   </h1>
                   <p className="mb-6 text-center">

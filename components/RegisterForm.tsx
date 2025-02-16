@@ -18,7 +18,7 @@ export default function RegisterForm() {
       router.push("/");
       toast.success(state.success);
     }
-    if(state?.error) toast.error(state.error)
+    if (state?.error) toast.error(state.error);
   }, [router, state]);
   return (
     <form action={formAction} className="space-y-4">

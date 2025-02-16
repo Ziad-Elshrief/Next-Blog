@@ -82,8 +82,8 @@ export default function PostsManagement() {
         <>
           <div className="w-full overflow-hidden rounded-md shadow-md">
             <div className="min-w-full overflow-x-auto">
-              <table className="w-full min-w-[600px] divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-background-600 text-gray-700 dark:text-gray-400">
+              <table className="divide-background-200 w-full min-w-[600px] divide-y">
+                <thead className="bg-background-600 text-sub-foreground">
                   <tr>
                     <th
                       scope="col"
@@ -111,7 +111,7 @@ export default function PostsManagement() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-background-800 divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody className="bg-background-800 divide-background-200 divide-y">
                   {currentPosts.map((post) => (
                     <tr key={post.postId}>
                       <td className="text-foreground px-6 py-4 text-sm whitespace-nowrap">
@@ -139,7 +139,7 @@ export default function PostsManagement() {
                         </Switch>
                       </td>
                       <td className="px-6 py-4 text-sm font-medium whitespace-nowrap">
-                        <Menu as="div">
+                        <Menu>
                           <MenuButton className="text-foreground cursor-pointer">
                             <MoreVertical
                               className="h-5 w-5"

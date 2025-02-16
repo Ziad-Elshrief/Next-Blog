@@ -10,7 +10,7 @@ export default function NotFound() {
         <div className="mb-6 flex justify-center">
           <LucideOctagonAlert className="h-16 w-16 text-red-500" />
         </div>
-        <h1 className="mb-4 text-center text-2xl font-bold text-gray-700 dark:text-gray-400">
+        <h1 className="mb-4 text-center text-2xl font-bold text-sub-foreground">
           Page Not Found
         </h1>
         <p className="mb-6 text-center">

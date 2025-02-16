@@ -32,9 +32,7 @@ export default async function BlogPost({
           <PinIcon className="size-5 rotate-45" /> Pinned
         </p>
       )}
-      <h1 className="mb-4 text-4xl font-bold text-gray-600 dark:text-gray-300">
-        {post.title}
-      </h1>
+      <h1 className="text-foreground mb-4 text-4xl font-bold">{post.title}</h1>
       <div className="mb-6 flex items-center">
         {post.authorAvatar ? (
           <Image
@@ -54,7 +52,7 @@ export default async function BlogPost({
           </div>
         )}
         <div>
-          <p className="text-lg font-semibold text-sky-900 dark:text-sky-600">
+          <p className="text-primary-foreground text-lg font-semibold">
             {post.authorName ? <>{post.authorName}</> : "Deleted Account"}
           </p>
           <p className="text-sm text-gray-500">{fortmatDate(post.createdAt)}</p>

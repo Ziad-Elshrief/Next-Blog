@@ -83,7 +83,7 @@ export default function UsersManagement() {
           <div className="pt-3 pb-6">
             <h2 className="mb-4 text-lg font-medium">Posting Permissions</h2>
             <div className="flex items-center space-x-3">
-              <span className="shrink-0 text-sm text-gray-700 dark:text-gray-400">
+              <span className="text-sub-foreground shrink-0 text-sm">
                 Who can post:
               </span>
               <Select
@@ -99,8 +99,8 @@ export default function UsersManagement() {
           </div>
           <div className="w-full overflow-hidden rounded-md shadow-md">
             <div className="min-w-full overflow-x-auto">
-              <table className="w-full min-w-[600px] divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-background-600 text-gray-700 dark:text-gray-400">
+              <table className="divide-background-200 w-full min-w-[600px] divide-y">
+                <thead className="bg-background-600 text-sub-foreground">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium tracking-wider uppercase">
                       Name
@@ -116,7 +116,7 @@ export default function UsersManagement() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-background-800 divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody className="bg-background-800 divide-background-200 divide-y">
                   {currentUsers.map((user) => (
                     <tr key={user.uid}>
                       <td className="text-foreground px-6 py-4 text-sm font-medium whitespace-nowrap">

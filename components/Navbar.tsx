@@ -35,6 +35,7 @@ import {
   MenuSeparator,
 } from "@headlessui/react";
 import UserAvatar from "./UserAvatar";
+import DarkModeToggler from "./DarkModeToggler";
 
 export default function Navbar() {
   const { user, isLoading } = useUserInfo();
@@ -63,6 +64,7 @@ export default function Navbar() {
           </li>
         </ul>
         <div className="flex items-center justify-center space-x-3">
+          <DarkModeToggler />
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             className="cursor-pointer md:hidden"
@@ -98,10 +100,8 @@ function NavUserIcon() {
   return (
     <>
       {user && (
-        <Menu as="div">
-          <MenuButton
-            className={`${user.avatar ? "mt-[3.5px]" : ""} cursor-pointer`}
-          >
+        <Menu>
+          <MenuButton className="cursor-pointer">
             <UserAvatar fontSize="text-sm" />
           </MenuButton>
           <MenuItems
@@ -113,7 +113,7 @@ function NavUserIcon() {
               <h2 className="text-base font-semibold">
                 {user.firstName} {user.lastName}
               </h2>
-              <p className="text-xs text-gray-700 dark:text-gray-300">
+              <p className="text-xs text-sub-foreground">
                 {user.email}
               </p>
             </MenuItem>
@@ -136,8 +136,8 @@ function NavUserIcon() {
 function NavNoUserIcon() {
   return (
     <>
-      <Menu as="div">
-        <MenuButton className="mt-[3.5px] cursor-pointer">
+      <Menu>
+        <MenuButton className="cursor-pointer">
           <UserCircle2Icon className="size-8" />
         </MenuButton>
         <MenuItems
