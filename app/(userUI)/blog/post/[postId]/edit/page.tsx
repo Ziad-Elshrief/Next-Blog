@@ -11,6 +11,7 @@ import { editPost, getPostById } from "@/app/actions/posts";
 import useUserInfo from "@/hooks/useUserInfo";
 import { DocumentData } from "firebase/firestore";
 import toast from "react-hot-toast";
+import { revalidatePosts } from "@/app/actions/revalidate";
 
 export default function EditPostPage() {
   const { postId } = useParams<{ postId: string }>();
@@ -24,6 +25,7 @@ export default function EditPostPage() {
     try {
       setPostData(content);
       await editPost(post?.postId, postTitle, content);
+      await revalidatePosts()
       router.push(`/blog/post/${post?.postId}`);
       toast.success("Saved changes");
     } catch (error) {

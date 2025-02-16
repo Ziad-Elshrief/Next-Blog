@@ -24,6 +24,7 @@ import {
 } from "@/app/actions/posts";
 import { DocumentData } from "firebase/firestore";
 import toast from "react-hot-toast";
+import { revalidatePosts } from "@/app/actions/revalidate";
 
 export default function PostsManagement() {
   const [isLoading, setIsLoading] = useState(true);
@@ -44,6 +45,7 @@ export default function PostsManagement() {
       await unpinPost(postId);
       toast.success("Post unpinned");
     }
+    await revalidatePosts();
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
         post.postId === postId
@@ -55,6 +57,7 @@ export default function PostsManagement() {
 
   const handleDeletePost = async (postId: string) => {
     await deletePost(postId);
+    await revalidatePosts();
     setPosts((prevPosts) => prevPosts.filter((post) => post.postId !== postId));
     toast.success("Post deleted");
   };
@@ -128,7 +131,7 @@ export default function PostsManagement() {
                           }
                           className={`${
                             post.pinned ? "bg-sky-600" : "bg-gray-200"
-                          } relative inline-flex h-6 w-11 items-center rounded-full`}
+                          } relative inline-flex h-6 w-11 items-center rounded-full cursor-pointer`}
                         >
                           <span className="sr-only">Pin Post</span>
                           <span

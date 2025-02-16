@@ -10,6 +10,7 @@ import Link from "next/link";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { createPost, getPostPermission } from "@/app/actions/posts";
 import toast from "react-hot-toast";
+import { revalidatePosts } from "@/app/actions/revalidate";
 
 export default function NewPostPage() {
   const { user, isLoading } = useUserInfo();
@@ -28,8 +29,9 @@ export default function NewPostPage() {
     setPostData(content);
     const postId = await createPost(postTitle, content, user?.uid);
     if (postId) {
-      router.push(`/blog/post/${postId}`);
+      await revalidatePosts()
       toast.success("Post created");
+      router.push(`/blog/post/${postId}`);
     } else {
       toast.error("Post was not created");
     }

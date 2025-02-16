@@ -1,6 +1,7 @@
 "use client";
 
 import { deletePost } from "@/app/actions/posts";
+import { revalidatePosts } from "@/app/actions/revalidate";
 import {
   Description,
   Dialog,
@@ -18,6 +19,7 @@ export default function DeletePostButton({ postId }: { postId: string }) {
   const router = useRouter();
   const handleDelete = async () => {
     await deletePost(postId);
+    await revalidatePosts()
     setIsOpen(false);
     router.push("/blog");
     toast.success("Post deleted");
