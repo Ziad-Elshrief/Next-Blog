@@ -17,8 +17,11 @@ export function Sidebar({ children, isOpen, setIsOpen }: SidebarProps) {
       if (window.innerWidth > MEDIUM_SCREEN_WIDTH) setIsOpen(false);
     };
     window.addEventListener("resize", sidebarHandler);
+    const closeSidebarHandler = () => setIsOpen(false);
+    window.addEventListener("closeSidebar", closeSidebarHandler);
     return () => {
       window.removeEventListener("resize", sidebarHandler);
+      window.removeEventListener("closeSidebar", closeSidebarHandler);
     };
   });
   return (
@@ -75,6 +78,7 @@ export function SidebarLinkItem({
 
   return (
     <Link
+      onClick={() => window.dispatchEvent(new Event("closeSidebar"))}
       href={href}
       className={`flex items-center space-x-3 rounded-md px-3 py-2 transition-colors ${
         isActive ? "bg-primary text-white" : "hover:bg-primary hover:text-white"
@@ -88,7 +92,7 @@ export function SidebarLinkItem({
 
 type SidebarButtonItemProps = {
   icon: ReactNode;
-  onClick: MouseEventHandler<HTMLButtonElement> | undefined;
+  onClick: MouseEventHandler<HTMLButtonElement>;
   children: ReactNode;
 };
 
@@ -99,7 +103,10 @@ export function SidebarButtonItem({
 }: SidebarButtonItemProps) {
   return (
     <button
-      onClick={onClick}
+      onClick={(e) => {
+        onClick(e);
+        window.dispatchEvent(new Event("closeSidebar"));
+      }}
       className="hover:bg-primary flex w-full cursor-pointer items-center space-x-3 rounded-md px-3 py-2 transition-colors hover:text-white"
     >
       {icon}
