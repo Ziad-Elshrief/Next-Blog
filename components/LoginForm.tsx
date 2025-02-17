@@ -17,7 +17,9 @@ export default function LoginForm() {
   );
   useEffect(() => {
     if (state?.success) {
-      router.push("/");
+      const next =
+        new URLSearchParams(window.location.search).get("next") ?? "/";
+      router.push(next);
       toast.success(state.success);
     }
     if (state?.error) toast.error(state.error);
@@ -36,7 +38,7 @@ export default function LoginForm() {
           <span className="w-full border-t border-gray-700" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background-300 px-2 text-sub-foreground">
+          <span className="bg-background-300 text-sub-foreground px-2">
             or continue with
           </span>
         </div>

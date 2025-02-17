@@ -1,5 +1,6 @@
 "use client";
 
+import { getTheme } from "@/utils/sessionSettings";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Check, Moon, Settings, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -25,33 +26,7 @@ export default function DarkModeToggler() {
   }
 
   useEffect(() => {
-    const getTheme = () => {
-      if (
-        localStorage.getItem("userTheme") === "dark" ||
-        localStorage.getItem("userTheme") === "light"
-      ) {
-        const userPrefrence = localStorage.getItem("userTheme");
-        if (userPrefrence === "dark") {
-          document.body.classList.add("dark");
-          setSiteTheme("dark");
-        } else if (userPrefrence === "light") {
-          document.body.classList.remove("dark");
-          setSiteTheme("light");
-        }
-      } else {
-        const preferDarkMode = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        ).matches;
-        if (preferDarkMode) {
-          document.body.classList.add("dark");
-          setSiteTheme("system");
-        } else {
-          document.body.classList.remove("dark");
-          setSiteTheme("system");
-        }
-      }
-    };
-    getTheme();
+    setSiteTheme(getTheme());
   }, [siteTheme]);
   return (
     <Menu>

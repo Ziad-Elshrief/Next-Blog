@@ -96,6 +96,11 @@ export default async function createUserEmailPassword(
 
 export const logout = async () => {
   try {
+    await fetch("/api/set-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idToken: "loggedout" }),
+    });
     await signOut(auth);
   } catch (error) {
     const err = error as AuthError;
@@ -134,6 +139,11 @@ export const loginUserEmailPassword = async (
       email,
       password
     );
+    await fetch("/api/set-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idToken: userCredential.user.getIdToken() }),
+    });
     if (analytics)
       logEvent(analytics, "login", {
         method: "email_password",
@@ -154,6 +164,11 @@ export const loginUserEmailPassword = async (
 export const loginUserGoogle = async () => {
   try {
     const { user } = await signInWithPopup(auth, provider);
+    await fetch("/api/set-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idToken: user.getIdToken() }),
+    });
     if (analytics)
       logEvent(analytics, "login", {
         method: "google",

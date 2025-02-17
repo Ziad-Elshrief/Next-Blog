@@ -29,7 +29,7 @@ export default function NewPostPage() {
     setPostData(content);
     const postId = await createPost(postTitle, content, user?.uid);
     if (postId) {
-      await revalidatePosts()
+      await revalidatePosts();
       toast.success("Post created");
       router.push(`/blog/post/${postId}`);
     } else {
@@ -40,7 +40,7 @@ export default function NewPostPage() {
   // Wait until the user is loaded
   useEffect(() => {
     if (!isLoading && !user) {
-      router.push("/login");
+      router.push("/login?next=%2Fblog%2Fnew");
     }
     if (user?.isBanned) router.replace("/banned");
   }, [isLoading, user, router]);
@@ -61,13 +61,13 @@ export default function NewPostPage() {
             <ArrowLeft className="size-4" />
             Back to all posts
           </Link>
-          <h1 className="mb-8 text-3xl font-bold text-primary-foreground">
+          <h1 className="text-primary-foreground mb-8 text-3xl font-bold">
             Create New Post
           </h1>
           <div className="mb-6">
             <label
               htmlFor="title"
-              className="mb-2 block font-medium text-sub-foreground"
+              className="text-sub-foreground mb-2 block font-medium"
             >
               Title
             </label>
@@ -81,7 +81,7 @@ export default function NewPostPage() {
             />
           </div>
           <div className="mb-6">
-            <label className="mb-2 block font-medium text-sub-foreground">
+            <label className="text-sub-foreground mb-2 block font-medium">
               Content
             </label>
             <TiptapEditor
@@ -90,9 +90,7 @@ export default function NewPostPage() {
               saveButtonLabel="Save Post"
             />
           </div>
-          <h2 className="mb-2 font-medium text-sub-foreground">
-            Preview
-          </h2>
+          <h2 className="text-sub-foreground mb-2 font-medium">Preview</h2>
           <div className="tiptap border-foreground/30 bg-background mt-4 rounded-lg border p-4">
             {postData && <>{parse(postData)}</>}
           </div>
