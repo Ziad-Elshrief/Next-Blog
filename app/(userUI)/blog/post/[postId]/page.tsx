@@ -40,14 +40,14 @@ export default async function BlogPost({
             alt={post.authorName}
             width={40}
             height={40}
-            className="mr-4 rounded-full"
+            className="mr-4 shrink-0 rounded-full"
           />
         ) : (
-          <div className="border-primary-hover text-primary-hover mr-4 flex size-10 items-center justify-center rounded-full border-2 bg-gray-400 text-xl select-none">
+          <div className="border-primary-hover text-primary-hover mr-4 flex size-10 shrink-0 items-center justify-center rounded-full border-2 bg-gray-400 text-xl select-none">
             {post.authorName ? (
               <>{post.authorName.slice(0, 2).toUpperCase()}</>
             ) : (
-              <Ban className="size-10" />
+              <Ban className="size-10 shrink-0" />
             )}
           </div>
         )}
@@ -55,7 +55,15 @@ export default async function BlogPost({
           <p className="text-primary-foreground text-lg font-semibold">
             {post.authorName ? <>{post.authorName}</> : "Deleted Account"}
           </p>
-          <p className="text-sm text-gray-500">{fortmatDate(post.createdAt)}</p>
+          <p className="text-sm text-gray-500">
+            {fortmatDate(post.createdAt)}
+            <span className="mx-2">·</span>
+            <span>
+              {post.readInMins === "1"
+                ? `${post.readInMins} min read`
+                : `${post.readInMins} mins read`}
+            </span>
+          </p>
         </div>
       </div>
       <PostControls postId={postId} authorId={post.author} />

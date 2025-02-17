@@ -40,10 +40,16 @@ export default function PaginatedPosts({ posts }: { posts: DocumentData[] }) {
             <p className="text-foreground mb-4 line-clamp-2">
               {extractFirstParagraph(post.content)}
             </p>
-            <div className="text-sub-foreground flex items-center text-sm">
+            <div className="text-sub-foreground flex flex-wrap items-center text-sm">
               <span>{post.authorName}</span>
               <span className="mx-2">·</span>
               <span>{fortmatDate(post.createdAt)}</span>
+              <span>
+                <span className="mx-2">·</span>
+                {post.readInMins === "1"
+                  ? `${post.readInMins} min read`
+                  : `${post.readInMins} mins read`}
+              </span>
             </div>
           </Link>
         </article>

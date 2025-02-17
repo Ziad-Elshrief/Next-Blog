@@ -5,9 +5,14 @@ export const extractFirstParagraph = (htmlString: string) => {
 
 export const fortmatDate = (date: string) => {
   return new Date(date).toLocaleDateString(["en-US"], {
-    weekday: "long",
+    weekday: "short",
     year: "numeric",
-    month: "long",
+    month: "short",
     day: "numeric",
   });
+};
+
+export const estimateReadTime = (content: string) => {
+  const readInMins = Math.round(content.split(" ").length / 200);
+  return readInMins > 0 ? readInMins : "1";
 };

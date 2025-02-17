@@ -1,4 +1,5 @@
 import { db } from "@/utils/firebase";
+import { estimateReadTime } from "@/utils/formatPosts";
 import {
   collection,
   deleteDoc,
@@ -95,6 +96,7 @@ export const createPost = async (
       updatedAt: new Date().toISOString(),
       author: authorId,
       pinned: false,
+      readInMins: `${estimateReadTime(content)}`,
     });
     return postId;
   } catch (error) {
@@ -113,6 +115,7 @@ export const editPost = async (
       title,
       content,
       updatedAt: new Date().toISOString(),
+      readInMins: `${estimateReadTime(content)}`,
     });
   } catch (error) {
     console.log(error);
