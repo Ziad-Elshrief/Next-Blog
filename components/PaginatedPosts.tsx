@@ -1,6 +1,7 @@
 "use client";
 
 import { extractFirstParagraph, fortmatDate } from "@/utils/formatPosts";
+import parse from "html-react-parser";
 import Link from "next/link";
 import Pagination from "./PaginationToolbar";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -38,7 +39,7 @@ export default function PaginatedPosts({ posts }: { posts: DocumentData[] }) {
               {post.title}
             </h2>
             <p className="text-foreground mb-4 line-clamp-2">
-              {extractFirstParagraph(post.content)}
+              {parse(extractFirstParagraph(post.content) ?? "")}
             </p>
             <div className="text-sub-foreground flex flex-wrap items-center text-sm">
               <span>{post.authorName}</span>

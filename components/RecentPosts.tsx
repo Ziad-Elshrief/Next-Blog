@@ -1,5 +1,6 @@
 import { getRecentPosts } from "@/app/actions/posts";
 import { extractFirstParagraph } from "@/utils/formatPosts";
+import parse from "html-react-parser";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -43,7 +44,7 @@ async function RecentPostsSuspense() {
             {post.title}
           </h3>
           <p className="mb-4 line-clamp-2 text-sky-600">
-            {extractFirstParagraph(post.content)}
+            {parse(extractFirstParagraph(post.content) ?? "")}
           </p>
           <Link
             href={`blog/post/${post.postId}`}
